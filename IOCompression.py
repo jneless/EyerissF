@@ -6,5 +6,3 @@ def Compress():
 
 def Decompress():
     pass
-
-pass
