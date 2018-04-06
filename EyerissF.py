@@ -1,4 +1,5 @@
 import numpy as np
+import conf
 
 class EyerissF:
 
@@ -11,3 +12,5 @@ class EyerissF:
     def Conv2d(self,Pictures,FilterWights):
         pass
 
+    def InitPEs(self,PEsWidth=conf.EyerissWidth,PEsHigh=conf.EyerissHeight):
+        pass

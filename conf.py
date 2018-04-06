@@ -10,8 +10,8 @@
 
 DRAMSize=108
 PEBuffer=0.5
-EyerissWidth=12
-EyerissHigh=14
+EyerissWidth=14
+EyerissHeight=12
 
 PictureLayer=3
 MB=1024
