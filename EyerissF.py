@@ -19,7 +19,6 @@ class EyerissF:
         self.run()
         eval('return Activiation.' + Activation + '()')
 
-
         ###########################################
         # if Activiation=='Relu' :
         #     return Activiation.Relu()
