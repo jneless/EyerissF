@@ -1,5 +1,6 @@
 import numpy as np
 import conf
+import Activiation
 from PE import PE
 
 class EyerissF:
@@ -12,13 +13,20 @@ class EyerissF:
     def __init__(self):
         pass
 
-    def Conv2d(self,Pictures,FilterWights):
+    def Conv2d(self,Pictures,FilterWights,Activation='Relu'):
         self.RawStationry(Pictures,FilterWights)
         self.DataDeliver()
-        pass
+        self.run()
+        eval('return Activiation.' + Activation + '()')
+
+        ###########################################
+        # if Activiation=='Relu' :
+        #     return Activiation.Relu()
+        # else:
+        #     eval('return Activiation.' + Activation + '()')
+        ###########################################
 
     def InitPEs(self,PEsWidth=conf.EyerissWidth,PEsHeight=conf.EyerissHeight):
-
         self.PEArray=list()
         for x in range(0,conf.EyerissHeight):
             self.PEArray.append(list())
