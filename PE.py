@@ -1,7 +1,7 @@
 import numpy as np
 import conf
 
-class PE(object):
+class PE:
 
     PEBuffer=conf.PEBuffer
 

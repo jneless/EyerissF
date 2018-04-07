@@ -4,10 +4,16 @@ from PE import PE
 
 class EyerissF:
 
+
+    GlobalBuffer=conf.SRAMSize
+    EyerissWidth=conf.EyerissWidth
+    EyerissHeight=conf.EyerissHeight
+
     def __init__(self):
         pass
 
     def Conv2d(self,Pictures,FilterWights):
+        self.RawStationry(Pictures,FilterWights)
         self.DataDeliver()
         pass
 
@@ -19,7 +25,19 @@ class EyerissF:
             for y in range(0,conf.EyerissWidth):
                 self.PEArray[x].append(PE())
 
+    def DataDeliver(self):
+        #将一个pic和filter分发到eyeirss中
         pass
 
-    def DataDeliver(self):
+    def FmapReuse(self,Pictures,FilterWights):
+        pass
+
+    def FilterReuse(self,Pictures,FilterWights):
+        pass
+
+    def ChannelAccumulation(self,Pictures,FilterWights):
+        pass
+
+
+    def run(self):
         pass
