@@ -5,7 +5,6 @@ from PE import PE
 
 class EyerissF:
 
-
     GlobalBuffer=conf.SRAMSize
     EyerissWidth=conf.EyerissWidth
     EyerissHeight=conf.EyerissHeight
@@ -17,7 +16,7 @@ class EyerissF:
         self.RawStationry(Pictures,FilterWights)
         self.DataDeliver()
         self.run()
-        eval('return Activiation.' + Activation + '()')
+        eval('Activiation.' + Activation + '()')
 
         ###########################################
         # if Activiation=='Relu' :
@@ -38,14 +37,21 @@ class EyerissF:
         pass
 
     def FmapReuse(self,Pictures,FilterWights):
-        pass
+        l = list()
+        line = list()
+        for y in range(0, len(Pictures[0])):
+            for x in range(0, len(Pictures)):
+                l.append(Pictures[x][y])
+            line.append(np.hstack(l))
+            l.clear()
+        Picture = np.array(line)
+        return Picture,FilterWights
 
     def FilterReuse(self,Pictures,FilterWights):
         pass
 
     def ChannelAccumulation(self,Pictures,FilterWights):
         pass
-
 
     def run(self):
         pass
