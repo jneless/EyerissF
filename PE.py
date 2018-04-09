@@ -4,6 +4,7 @@ import conf
 class PE:
 
     PEBuffer=conf.PEBuffer
+    ClockGate=0
 
     def __init__(self):
         self.setFilterWeight((0,0))

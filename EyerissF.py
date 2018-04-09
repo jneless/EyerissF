@@ -107,6 +107,9 @@ class EyerissF:
                 self.PEArray[x][y].countPsum()
 
 
+        return
+
+
     def RawStationry(self,Pictures,FilterWeights):
         # Call Two Reuse function and ChannelAccumulation
         pass
