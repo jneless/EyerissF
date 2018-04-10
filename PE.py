@@ -1,54 +1,50 @@
 import numpy as np
 import conf
 
-class PE:
 
-    PEBuffer=conf.PEBuffer
-    PEState=conf.ClockGate
+class PE:
+    PEBuffer = conf.PEBuffer
+    PEState = conf.ClockGate
 
     def __init__(self):
-        self.setFilterWeight((0,0))
-        self.setImageRow((0,0))
+        self.SetFilterWeight((0, 0))
+        self.SetImageRow((0, 0))
 
-    def SetPEState(self,State):
-        self.PEState=State
+    def SetPEState(self, State):
+        self.PEState = State
 
-    def SetFilterWeight(self,FilterWeight):
-        self.FilterWeight=FilterWeight
+    def SetFilterWeight(self, FilterWeight):
+        self.FilterWeight = FilterWeight
 
     def SetImageRow(self, ImageRow):
         self.ImageRow = ImageRow
 
-    def Conv1d(self,ImageRow,FilterWeight):
+    def Conv1d(self, ImageRow, FilterWeight):
         result = list()
-        for x in range(0,len(ImageRow)-1+len(FilterWeight)):
-            y=x+len(FilterWeight)
-            if y>len(ImageRow):
+        for x in range(0, len(ImageRow) - 1 + len(FilterWeight)):
+            y = x + len(FilterWeight)
+            if y > len(ImageRow):
                 break
-            r=ImageRow[x:y]*FilterWeight
+
+            # Eyeriss有跳0操作，但此处代码没体现
+            r = ImageRow[x:y] * FilterWeight
             result.append(r.sum())
         return np.array(result)
 
     def CountPsum(self):
 
-        #############
-        #
-        # ### First Edition ###
-        #
-        # try:
-        #     self.Psum=self.Conv1d(self.FilterWeight,self.ImageRow)
-        # except:
-        #     pass
-        #
-        #############
+        if self.PEState == conf.ClockGate:
+            self.Psum = conf.EmptyPsum
+        elif self.PEState == conf.Running:
+            self.Psum = self.Conv1d(self.ImageRow,self.FilterWeight)
 
-        if self.PEState==conf.ClockGate:
-            self.Psum=conf.EmptyPsum
-        elif self.PEState==conf.Running:
-            self.Psum = self.Conv1d(self.FilterWeight, self.ImageRow)
+        return self.Psum
 
 
-if __name__=='__main__':
-    p=PE()
-    r=p.Conv1d(np.array([1,1,1,1,1]),np.array([1,1]))
+if __name__ == '__main__':
+    p = PE()
+    p.PEState=conf.Running
+    p.SetFilterWeight(np.array([1, 1, 1]))
+    p.SetImageRow(np.array([1, 1, 1, 1, 1]))
+    r=p.CountPsum()
     print(r)
