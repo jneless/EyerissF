@@ -4,16 +4,19 @@ import conf
 class PE:
 
     PEBuffer=conf.PEBuffer
-    ClockGate=0
+    PEState=conf.ClockGate
 
     def __init__(self):
         self.setFilterWeight((0,0))
         self.setImageRow((0,0))
 
-    def setFilterWeight(self,FilterWeight):
+    def SetPEState(self,State):
+        self.PEState=State
+
+    def SetFilterWeight(self,FilterWeight):
         self.FilterWeight=FilterWeight
 
-    def setImageRow(self, ImageRow):
+    def SetImageRow(self, ImageRow):
         self.ImageRow = ImageRow
 
     def Conv1d(self,ImageRow,FilterWeight):
@@ -26,13 +29,23 @@ class PE:
             result.append(r.sum())
         return np.array(result)
 
-    def countPsum(self):
+    def CountPsum(self):
 
-        try:
-            self.Psum=self.Conv1d(self.FilterWeight,self.ImageRow)
-        except:
-            pass
+        #############
+        #
+        # ### First Edition ###
+        #
+        # try:
+        #     self.Psum=self.Conv1d(self.FilterWeight,self.ImageRow)
+        # except:
+        #     pass
+        #
+        #############
 
+        if self.PEState==conf.ClockGate:
+            self.Psum=conf.EmptyPsum
+        elif self.PEState==conf.Running:
+            self.Psum = self.Conv1d(self.FilterWeight, self.ImageRow)
 
 
 if __name__=='__main__':

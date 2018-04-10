@@ -1,6 +1,5 @@
 import numpy as np
 import conf
-import Activiation
 from PE import PE
 
 class EyerissF:
@@ -17,9 +16,10 @@ class EyerissF:
         self.DataDeliver()
         self.run()
 
-        # TODO add paramter in ()
-        eval('Activiation.' + Activation + '()')
+        #TODO self.PsumTransport()
 
+        self.SetALLPEsState(conf.ClockGate)
+        eval('Activiation.' + Activation + '()')
 
         ###########################################
         # if Activiation=='Relu' :
@@ -35,18 +35,35 @@ class EyerissF:
             for y in range(0,conf.EyerissWidth):
                 self.PEArray[x].append(PE())
 
+    def SetALLPEsState(self,State):
+
+        assert State==conf.ClockGate or State==conf.Running
+
+        for ColumnELement in range(0, EyerissF.EyerissHeight):
+            for RowElement in range(0, EyerissF.EyerissWidth):
+                self.PEArray[ColumnELement][RowElement].SetPEState(State)
+
+    def SetPEsRunningState(self,PictureColumnLength,FilterWeightColumnLength):
+
+        assert FilterWeightColumnLength <= PictureColumnLength
+        assert FilterWeightColumnLength <= EyerissF.EyerissHeight
+        assert PictureColumnLength <= EyerissF.EyerissHeight + EyerissF.EyerissWidth -1
+
+        for ColumnELement in range(0, FilterWeightColumnLength):
+            for RowElement in range(0, PictureColumnLength + 1 - FilterWeightColumnLength):
+                self.PEArray[ColumnELement][RowElement].SetPEState(conf.Running)
 
     def DataDeliver(self,Picture,FilterWeight):
-        #将一个pic和filter分发到eyeriss中
+        # put the pic and filter row data into PEArray
 
-        #防止越界
+        # Eyeriss scale-overflow check
         assert len(FilterWeight)<=self.EyerissHeight
         assert len(Picture)+len(Picture[0])-1 <= self.EyerissWidth
 
         # filterWeight input from left to right
-        for x in range(0,len(FilterWeight)):
-            for y in range(0,self.EyerissWidth):
-                self.PEArray[x][y].setFilterWeight(FilterWeight[x])
+        for ColumnELement in range(0,len(FilterWeight)):
+            for RowElement in range(0,self.EyerissWidth):
+                self.PEArray[ColumnELement][RowElement].SetFilterWeight(FilterWeight[x])
 
         # ImageRow input from left-down to righ-up
 
@@ -54,7 +71,7 @@ class EyerissF:
             x = 0
             y = z
             for c in range(0,z+1):
-                self.PEArray[y][x].setImageRow(Picture[z])
+                self.PEArray[y][x].SetImageRow(Picture[z])
                 x=x+1
                 y=y-1
 
@@ -105,10 +122,10 @@ class EyerissF:
         for x in range(0,conf.EyerissHeight):
             for y in range(0,conf.EyerissWidth):
                 self.PEArray[x][y].countPsum()
+        #TODO
 
-
-        return
-
+    def PsumTransport(self):
+        pass
 
     def RawStationry(self,Pictures,FilterWeights):
         # Call Two Reuse function and ChannelAccumulation
