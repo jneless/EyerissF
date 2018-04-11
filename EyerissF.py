@@ -81,23 +81,23 @@ class EyerissF:
 
     def __PsumTransport__(self, PictureColumnLength, FilterWeightColumnLength):
 
-        # TODO rename l and r
+        # TODO rename line and result
 
-        l = list()
-        r = list()
+        line = list()
+        result = list()
         for RowElement in range(0, PictureColumnLength + 1 - FilterWeightColumnLength):
 
             # 清空list
-            l.clear()
+            line.clear()
             for ColumnElement in range(0, FilterWeightColumnLength).__reversed__():
                 # 从上到下把psum加入list
-                l.append(self.PEArray[ColumnElement][RowElement].Psum)
+                line.append(self.PEArray[ColumnElement][RowElement].Psum)
 
             # 将list中的Psum做和，得到一行卷积值，保存到r中
-            r.append(np.sum(l, axis=0))
+            result.append(np.sum(line, axis=0))
 
         # 将r中全部的卷积值组合成一个矩阵，并返回
-        return np.vstack(r)
+        return np.vstack(result)
 
 
 if __name__ == '__main__':
