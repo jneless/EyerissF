@@ -22,9 +22,9 @@ class EyerissF:
 
     def InitPEs(self, PEsWidth=conf.EyerissWidth, PEsHeight=conf.EyerissHeight):
         self.PEArray = list()
-        for x in range(0, conf.EyerissHeight):
+        for x in range(0, PEsHeight):
             self.PEArray.append(list())
-            for y in range(0, conf.EyerissWidth):
+            for y in range(0, PEsWidth):
                 self.PEArray[x].append(PE())
 
     def __SetALLPEsState__(self, State):
@@ -63,7 +63,6 @@ class EyerissF:
                 self.PEArray[ColumnELement][RowElement].SetFilterWeight(FilterWeight[ColumnELement])
 
         # ImageRow input from left-down to righ-up
-
         for z in range(0, len(Picture)):
             x = 0
             y = z
@@ -98,7 +97,9 @@ class EyerissF:
         return np.vstack(result)
 
 
+
 if __name__ == '__main__':
+
     Pic1 = np.array([[1, 2], [3, 4], [5, 6], [7, 8]])
     Pic2 = np.array([[9, 10], [11, 12], [13, 14], [15, 16]])
 
