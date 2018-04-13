@@ -81,8 +81,6 @@ class EyerissF:
 
     def __PsumTransport__(self, PictureColumnLength, FilterWeightColumnLength):
 
-        # TODO rename line and result
-
         line = list()
         result = list()
         for RowElement in range(0, PictureColumnLength + 1 - FilterWeightColumnLength):

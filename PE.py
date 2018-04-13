@@ -19,13 +19,14 @@ class PE:
     def SetImageRow(self, ImageRow):
         self.ImageRow = ImageRow
 
-    def Conv1d(self, ImageRow, FilterWeight):
+    def __Conv1d__(self, ImageRow, FilterWeight):
         result = list()
         for x in range(0, len(ImageRow) - 1 + len(FilterWeight)):
             y = x + len(FilterWeight)
             if y > len(ImageRow):
                 break
 
+            #TODO
             # Eyeriss有跳0操作，但此处代码没体现
             r = ImageRow[x:y] * FilterWeight
             result.append(r.sum())
@@ -36,7 +37,7 @@ class PE:
         if self.PEState == conf.ClockGate:
             self.Psum = conf.EmptyPsum
         elif self.PEState == conf.Running:
-            self.Psum = self.Conv1d(self.ImageRow,self.FilterWeight)
+            self.Psum = self.__Conv1d__(self.ImageRow,self.FilterWeight)
 
         return self.Psum
 
