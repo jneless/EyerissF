@@ -63,13 +63,13 @@ class EyerissF:
                 self.PEArray[ColumnELement][RowElement].SetFilterWeight(FilterWeight[ColumnELement])
 
         # ImageRow input from left-down to righ-up
-        for z in range(0, len(Picture)):
-            x = 0
-            y = z
-            for c in range(0, z + 1):
-                self.PEArray[y][x].SetImageRow(Picture[z])
-                x = x + 1
-                y = y - 1
+        for ColumnELement in range(0, len(Picture)):
+            DeliverinitR = 0
+            DeliverinitH = ColumnELement
+            for c in range(0, ColumnELement + 1):
+                self.PEArray[DeliverinitH][DeliverinitR].SetImageRow(Picture[ColumnELement])
+                DeliverinitR = DeliverinitR + 1
+                DeliverinitH = DeliverinitH - 1
 
         return PictureColumnLength, FilterWeightColumnLength
 
@@ -95,8 +95,6 @@ class EyerissF:
 
         # 将r中全部的卷积值组合成一个矩阵，并返回
         return np.vstack(result)
-
-
 
 if __name__ == '__main__':
 

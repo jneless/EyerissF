@@ -1,8 +1,9 @@
 import numpy as np
 
-Pic1 = np.array([[1, 2], [3, 4], [5, 6], [7, 8]])
-Pic2 = np.array([[9, 10], [11, 12], [13, 14], [15, 16]])
+n1=np.empty((1,2))
+n2=np.array([3,4])
+print(n1)
+print(n2)
 
-Pic = list()
-Pic.append(Pic1)
-Pic.append(Pic2)
+c=np.append(n1,n2)
+print(c)
