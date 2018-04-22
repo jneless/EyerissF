@@ -1,8 +1,11 @@
 import numpy as np
 
-def Compress(NpArray,RateNeed=0):
+
+def Compress(NpArray, RateNeed=0):
     Row, Column = NpArray.shape
     ComedNpArray = np.array([Row, Column], dtype=int)
+
+    # NpArray=NpArray.flatten()
     NpArray = NpArray.reshape((1, Row * Column))
     ZeroCounter = 0
 
@@ -20,11 +23,11 @@ def Compress(NpArray,RateNeed=0):
     if ZeroCounter != 0:
         ComedNpArray = np.append(ComedNpArray, np.array([0, ZeroCounter]))
 
-    if RateNeed==0:
+    if RateNeed == 0:
         return ComedNpArray
-    else :
+    else:
         CompressRate = float(ComedNpArray.size) / (Row * Column)
-        return ComedNpArray,CompressRate
+        return ComedNpArray, CompressRate
 
 
 def Decompress(NpArray):
@@ -57,8 +60,8 @@ if __name__ == "__main__":
          [1, 1, 0, 0, 0, 0, 0, 0],
          [1, 1, 0, 0, 0, 0, 0, 0]]
     )
-    print("压缩前：\n",NpArray)
+    print("压缩前：\n", NpArray)
     c = Compress(NpArray)
-    print("压缩后\n",c)
+    print("压缩后\n", c)
     c = Decompress(c)
-    print("解压后\n",c)
+    print("解压后\n", c)

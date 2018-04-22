@@ -1,9 +1,9 @@
 import numpy as np
 
-n1=np.empty((1,2))
-n2=np.array([3,4])
-print(n1)
-print(n2)
+a=np.array([1,2,3])
+b=np.array([4,5,6])
+c=np.array([7,8,9])
 
-c=np.append(n1,n2)
-print(c)
+d=np.vstack((a,b,c))
+
+print(d.max())
