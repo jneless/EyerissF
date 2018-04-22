@@ -1,6 +1,5 @@
 import numpy as np
 
-
 def Compress(NpArray,RateNeed=0):
     Row, Column = NpArray.shape
     ComedNpArray = np.array([Row, Column], dtype=int)
@@ -40,7 +39,6 @@ def Decompress(NpArray):
         if NpArray[interr + 2] == 0:
             for x in range(NpArray[interr + 3]):
                 DecomedNpArray.append(0)
-
         elif NpArray[interr + 1] == 0:  # NpArray[interr+2] != 0
             pass
 
@@ -54,7 +52,11 @@ def Decompress(NpArray):
 
 if __name__ == "__main__":
     NpArray = np.array(
-        [[0, 0, 0, 1, 1, 1, 0, 0], [1, 1, 0, 0, 0, 0, 0, 0], [1, 1, 0, 0, 0, 0, 0, 0], [1, 1, 0, 0, 0, 0, 0, 0]])
+        [[0, 0, 0, 1, 1, 1, 0, 0],
+         [1, 1, 0, 0, 0, 0, 0, 0],
+         [1, 1, 0, 0, 0, 0, 0, 0],
+         [1, 1, 0, 0, 0, 0, 0, 0]]
+    )
     print("压缩前：\n",NpArray)
     c = Compress(NpArray)
     print("压缩后\n",c)
