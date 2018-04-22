@@ -8,7 +8,3 @@ ConvLayer1Filter4=np.load('ConvLayerFilter/ConvLayer1Filter4.npy')
 ConvLayer1Filter5=np.load('ConvLayerFilter/ConvLayer1Filter5.npy')
 ConvLayer1Filter6=np.load('ConvLayerFilter/ConvLayer1Filter6.npy')
 
-
-
-
-
