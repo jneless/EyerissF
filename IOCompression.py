@@ -4,11 +4,8 @@ import numpy as np
 def Compress(NpArray):
 
     Row, Column = NpArray.shape
-
     ComedNpArray = np.array([Row, Column], dtype=int)
-
     NpArray = NpArray.reshape((1, Row * Column))
-
     ZeroCounter = 0
 
     for iterr in range(NpArray.size):
