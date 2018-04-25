@@ -50,7 +50,10 @@ class EyerissF:
 
         # Eyeriss scale-overflow check
         assert len(FilterWeight) <= self.EyerissHeight
-        assert len(Picture) + len(Picture[0]) - 1 <= self.EyerissWidth
+        #assert len(Picture) + len(Picture[0]) - 1 <= self.EyerissWidth
+        #TODO 检查正确性
+        assert self.EyerissWidth + self.EyerissHeight - 1 >=len(Picture)
+
 
         PictureColumnLength = len(Picture)
         FilterWeightColumnLength = len(FilterWeight)
@@ -70,6 +73,9 @@ class EyerissF:
                 self.PEArray[DeliverinitH][DeliverinitR].SetImageRow(Picture[ColumnELement])
                 DeliverinitR = DeliverinitR + 1
                 DeliverinitH = DeliverinitH - 1
+
+
+        # TODO 没考虑图片大于12行的情况
 
         return PictureColumnLength, FilterWeightColumnLength
 

@@ -1,4 +1,7 @@
 import numpy as np
+from EyerissF import EyerissF as EF
+from Compiler import Compiler as CP
+
 
 ConvLayer1Filter1=np.load('ConvLayerFilter/ConvLayer1Filter1.npy')
 ConvLayer1Filter2=np.load('ConvLayerFilter/ConvLayer1Filter2.npy')
@@ -25,3 +28,17 @@ ConvLayer2Filter14=np.load('ConvLayerFilter/ConvLayer2Filter14.npy')
 ConvLayer2Filter15=np.load('ConvLayerFilter/ConvLayer2Filter15.npy')
 ConvLayer2Filter16=np.load('ConvLayerFilter/ConvLayer2Filter16.npy')
 
+pic=np.load('Pic/pic.npy')
+
+cp=CP()
+ef=EF()
+ef.InitPEs()
+Picture, FilterWeight=cp.RawStationry(pic[np.newaxis],FilterWeights=(ConvLayer1Filter1,ConvLayer1Filter2,ConvLayer1Filter3,ConvLayer1Filter4,ConvLayer1Filter5,ConvLayer1Filter6))
+#
+# print(pic)
+# print(FilterWeight)
+
+#pic=np.random.randint(0,10,(12,12))
+pic=np.random.randint(0,10,(12,12))
+
+print(ef.Conv2d(pic,ConvLayer1Filter1))

@@ -11,7 +11,6 @@ class Compiler:
     def RawStationry(self, Pictures, FilterWeights):
         # Call should be like :
         # '''Picture,FilterWeight=self.RawStationry(Pictures,FilterWeights)'''
-
         if len(Pictures) == 1:
             Picture, FilterWeight = self.FmapReuse(Pictures, FilterWeights)
         elif len(FilterWeights) == 1:
