@@ -8,8 +8,6 @@ class Compiler:
     def __init__(self):
         pass
 
-
-
     def RawStationry(self, Pictures, FilterWeights):
         # Call should be like :
         # '''Picture,FilterWeight=self.RawStationry(Pictures,FilterWeights)'''
