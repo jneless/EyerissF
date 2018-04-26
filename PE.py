@@ -20,6 +20,11 @@ class PE:
         self.ImageRow = ImageRow
 
     def __Conv1d__(self, ImageRow, FilterWeight):
+
+
+        # TODO 改变Conv1d的计算方式，参数中加入 图片数量和Filter数量
+
+
         result = list()
         for x in range(0, len(ImageRow) - 1 + len(FilterWeight)):
             y = x + len(FilterWeight)
