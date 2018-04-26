@@ -48,7 +48,7 @@ def Decompress(NpArray):
         else:  # NpArray[interr+2] != 0 && NpArray[interr+1] != 0
             DecomedNpArray.append(NpArray[interr + 2])
 
-    DecomedNpArray = np.array(DecomedNpArray)
+    DecomedNpArray = np.array(DecomedNpArray,dtype=int)
     DecomedNpArray = DecomedNpArray.reshape(Row, Column)
     return DecomedNpArray
 

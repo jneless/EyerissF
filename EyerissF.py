@@ -2,7 +2,7 @@ import numpy as np
 import conf
 from PE import PE
 from Activiation import Relu
-
+from IOCompression import *
 
 class EyerissF:
     GlobalBuffer = conf.SRAMSize
@@ -113,11 +113,10 @@ class EyerissF:
                 line.append(self.PEArray[ColumnElement][RowElement].Psum)
 
             # 将list中的Psum做和，得到一行卷积值，保存到r中
-            result.append(np.sum(line, axis=0))
+            result.append(np.sum(line, axis=0,dtype=int))
 
         # 将r中全部的卷积值组合成一个矩阵，并返回
         return np.vstack(result)
-
 
     def __ShowPEState__(self,x,y):
         print("PE is : ",x,",",y)
@@ -130,7 +129,6 @@ class EyerissF:
 
         print("FilterWeight :",self.PEArray[x][y].FilterWeight)
         print("ImageRow :",self.PEArray[x][y].ImageRow)
-
 
     def __ShowAllPEState__(self):
 
@@ -147,8 +145,6 @@ class EyerissF:
             xx.append(yy)
             yy = []
         print(np.array(xx))
-
-
 
     def __ShowRunningPEState__(self):
 
@@ -169,36 +165,63 @@ class EyerissF:
         print("一共有",c,"个PE正在运行")
         print(np.array(xx))
 
+    def __ShowStates__(self):
+        c = 0
+        xx = list()
+        yy = list()
+        for x in range(conf.EyerissHeight):
+            for y in range(conf.EyerissWidth):
+
+                if self.PEArray[x][y].PEState == conf.Running:
+                    c = c + 1
+                    yy.append(1)
+                else:
+                    yy.append(0)
+            xx.append(yy)
+            yy = []
+        print("一共有", c, "个PE正在运行")
+        print(np.array(xx))
+
+
 if __name__ == '__main__':
 
-    # Pic1 = np.array([[1, 2], [3, 4], [5, 6], [7, 8]])
+    Pic1 = np.random.randint(-5,6,(5,5))
+    Pic2 = np.random.randint(-9,2, (3,3))
 
-    Pic1 = np.random.randint(-5,6,(15,2))
+    print("图片为 :")
 
-    Pic2 = np.array([[9, 10], [11, 12]])
+    print(Pic1)
+    print("卷积核为 :")
+    print(Pic2)
+
+    print("图片大小 :",Pic1.shape)
+    print("卷积核大小 :",Pic2.shape)
+
 
     e = EyerissF()
     e.InitPEs()
 
-    e.__DataDeliver__(Pic1, Pic2)
+    a,b=e.__DataDeliver__(Pic1, Pic2)
 
-    # print(e.PEArray[0][0].ImageRow)
-    # print(e.PEArray[1][0].ImageRow)
-    # print(e.PEArray[0][1].ImageRow)
-    #
-    # print(e.PEArray[2][0].ImageRow)
-    # print(e.PEArray[1][1].ImageRow)
-    # print(e.PEArray[0][2].ImageRow)
-
+    e.__ShowStates__()
     e.__run__()
+    x=e.__PsumTransport__(a,b)
 
-    # print(e.PEArray[0][0].Psum)
-    # print(e.PEArray[1][0].Psum)
-    # print(e.PEArray[0][1].Psum)
-    #
-    # print(e.PEArray[2][0].Psum)
-    # print(e.PEArray[1][1].Psum)
-    # print(e.PEArray[0][2].Psum)
+    x=Relu(x)
 
-    # e.__ShowRunningPEState__()
-    e.__ShowAllPEState__()
+    print("Relu后的输出矩阵 :")
+    print(x)
+
+    x,r=Compress(x,1)
+    print('压缩 :')
+    print(x)
+    print('压缩率 :', r)
+
+    x=Decompress(x)
+    print('解压缩 :')
+    print(x)
+
+
+
+
+

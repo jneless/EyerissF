@@ -8,7 +8,7 @@ class Compiler:
     def __init__(self):
         pass
 
-    def RawStationry(self, Pictures, FilterWeights):
+    def Con2LogicalMapping(self, Pictures, FilterWeights):
         # Call should be like :
         # '''Picture,FilterWeight=self.RawStationry(Pictures,FilterWeights)'''
         if len(Pictures) == 1:
@@ -80,3 +80,33 @@ class Compiler:
         line.clear()
 
         return Picture, FilterWeight
+
+    def Con2PhysicalMapping(self,Picture, FilterWeight):
+
+        x = 0
+        t=list()
+        while conf.EyerissWidth * x + conf.EyerissWidth + len(FilterWeight) -1 < len(FilterWeight) + len(Picture) -1:
+
+            P=Picture[conf.EyerissWidth * x : conf.EyerissWidth * x + conf.EyerissWidth + len(FilterWeight) -1 ]
+            x=x+1
+            t.append(P)
+
+        P=Picture[conf.EyerissWidth * x:]
+        t.append(P)
+
+
+        return t
+
+
+if __name__=="__main__":
+    cp=Compiler()
+
+    # Pic=np.random.randint(-1,2,(100,2))
+    # flt=np.random.randint(-1,2,(5,2))
+
+    pic=np.ones((20,5),dtype=int)
+    flt=np.ones((5,5),dtype=int)
+
+
+    print(cp.Con2PhysicalMapping(pic,flt))
+
