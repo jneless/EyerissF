@@ -31,14 +31,12 @@ ConvLayer2Filter16=np.load('ConvLayerFilter/ConvLayer2Filter16.npy')
 pic=np.load('Pic/pic.npy')
 
 cp=CP()
+
 ef=EF()
 ef.InitPEs()
-Picture, FilterWeight=cp.RawStationry(pic[np.newaxis],FilterWeights=(ConvLayer1Filter1,ConvLayer1Filter2,ConvLayer1Filter3,ConvLayer1Filter4,ConvLayer1Filter5,ConvLayer1Filter6))
-#
-# print(pic)
-# print(FilterWeight)
 
-#pic=np.random.randint(0,10,(12,12))
-pic=np.random.randint(0,10,(12,12))
 
-print(ef.Conv2d(pic,ConvLayer1Filter1))
+Picture, FilterWeight=cp.RawStationry(pic[np.newaxis],FilterWeights=(ConvLayer1Filter1,ConvLayer1Filter2,
+	ConvLayer1Filter3,ConvLayer1Filter4,ConvLayer1Filter5,ConvLayer1Filter6))
+
+

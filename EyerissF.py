@@ -37,49 +37,65 @@ class EyerissF:
 
     def __SetPEsRunningState__(self, PictureColumnLength, FilterWeightColumnLength):
 
+
+
         assert FilterWeightColumnLength <= PictureColumnLength
         assert FilterWeightColumnLength <= EyerissF.EyerissHeight
         assert PictureColumnLength <= EyerissF.EyerissHeight + EyerissF.EyerissWidth - 1
 
+
         for ColumnELement in range(0, FilterWeightColumnLength):
             for RowElement in range(0, PictureColumnLength + 1 - FilterWeightColumnLength):
-                self.PEArray[ColumnELement][RowElement].SetPEState(conf.Running)
+                try:
+                    self.PEArray[ColumnELement][RowElement].SetPEState(conf.Running)
+                except:
+                    pass
 
     def __DataDeliver__(self, Picture, FilterWeight):
         # put the pic and filter row data into PEArray
 
-        # Eyeriss scale-overflow check
+        # Eyeriss越界检查
+        # 卷积核行数不能超过 Eyeriss的高度（12）
         assert len(FilterWeight) <= self.EyerissHeight
-        #assert len(Picture) + len(Picture[0]) - 1 <= self.EyerissWidth
-        #TODO 检查正确性
-        assert self.EyerissWidth + self.EyerissHeight - 1 >=len(Picture)
 
+        # 图片的行数不能超过 卷积核行数 + Eyeriss宽度（14） -1
+        assert len(Picture)  <= len(FilterWeight) + self.EyerissWidth -1
 
         PictureColumnLength = len(Picture)
         FilterWeightColumnLength = len(FilterWeight)
 
         self.__SetPEsRunningState__(PictureColumnLength, FilterWeightColumnLength)
 
-        # filterWeight input from left to right
+        # filterWeight 从左到右
         for ColumnELement in range(0, len(FilterWeight)):
             for RowElement in range(0, self.EyerissWidth):
                 self.PEArray[ColumnELement][RowElement].SetFilterWeight(FilterWeight[ColumnELement])
 
-        # ImageRow input from left-down to righ-up
+        # ImageRow 从左下到右上
         for ColumnELement in range(0, len(Picture)):
             DeliverinitR = 0
             DeliverinitH = ColumnELement
             for c in range(0, ColumnELement + 1):
-                self.PEArray[DeliverinitH][DeliverinitR].SetImageRow(Picture[ColumnELement])
+                try:
+                    # 当len（pic）大于12的时候会发生一场，找不到PEArray[13][0]，但是与后续不影响
+                    self.PEArray[DeliverinitH][DeliverinitR].SetImageRow(Picture[ColumnELement])
+                except:
+                    pass
+
                 DeliverinitR = DeliverinitR + 1
                 DeliverinitH = DeliverinitH - 1
-
-
-        # TODO 没考虑图片大于12行的情况
 
         return PictureColumnLength, FilterWeightColumnLength
 
     def __run__(self):
+
+        '''
+
+        整个系统开始计算
+
+        :return:
+        '''
+
         for x in range(0, conf.EyerissHeight):
             for y in range(0, conf.EyerissWidth):
                 self.PEArray[x][y].CountPsum()
@@ -102,28 +118,87 @@ class EyerissF:
         # 将r中全部的卷积值组合成一个矩阵，并返回
         return np.vstack(result)
 
+
+    def __ShowPEState__(self,x,y):
+        print("PE is : ",x,",",y)
+
+        if self.PEArray[x][y].PEState == conf.Running:
+            print("PEState : Running")
+
+        else:
+            print("PEState : ClockGate")
+
+        print("FilterWeight :",self.PEArray[x][y].FilterWeight)
+        print("ImageRow :",self.PEArray[x][y].ImageRow)
+
+
+    def __ShowAllPEState__(self):
+
+        xx = list()
+        yy = list()
+        for x in range(conf.EyerissHeight):
+            for y in  range(conf.EyerissWidth):
+                self.__ShowPEState__(x,y)
+                if self.PEArray[x][y].PEState == conf.Running:
+                    yy.append(1)
+                else:
+                    yy.append(0)
+
+            xx.append(yy)
+            yy = []
+        print(np.array(xx))
+
+
+
+    def __ShowRunningPEState__(self):
+
+        c=0
+        xx=list()
+        yy=list()
+        for x in range(conf.EyerissHeight):
+            for y in  range(conf.EyerissWidth):
+
+                if self.PEArray[x][y].PEState == conf.Running:
+                    self.__ShowPEState__(x,y)
+                    c=c+1
+                    yy.append(1)
+                else:
+                    yy.append(0)
+            xx.append(yy)
+            yy=[]
+        print("一共有",c,"个PE正在运行")
+        print(np.array(xx))
+
 if __name__ == '__main__':
 
-    Pic1 = np.array([[1, 2], [3, 4], [5, 6], [7, 8]])
-    Pic2 = np.array([[9, 10], [11, 12], [13, 14], [15, 16]])
+    # Pic1 = np.array([[1, 2], [3, 4], [5, 6], [7, 8]])
+
+    Pic1 = np.random.randint(-5,6,(15,2))
+
+    Pic2 = np.array([[9, 10], [11, 12]])
 
     e = EyerissF()
     e.InitPEs()
 
     e.__DataDeliver__(Pic1, Pic2)
-    print(e.PEArray[0][0].ImageRow)
-    print(e.PEArray[1][0].ImageRow)
-    print(e.PEArray[0][1].ImageRow)
 
-    print(e.PEArray[2][0].ImageRow)
-    print(e.PEArray[1][1].ImageRow)
-    print(e.PEArray[0][2].ImageRow)
+    # print(e.PEArray[0][0].ImageRow)
+    # print(e.PEArray[1][0].ImageRow)
+    # print(e.PEArray[0][1].ImageRow)
+    #
+    # print(e.PEArray[2][0].ImageRow)
+    # print(e.PEArray[1][1].ImageRow)
+    # print(e.PEArray[0][2].ImageRow)
+
     e.__run__()
 
-    print(e.PEArray[0][0].Psum)
-    print(e.PEArray[1][0].Psum)
-    print(e.PEArray[0][1].Psum)
+    # print(e.PEArray[0][0].Psum)
+    # print(e.PEArray[1][0].Psum)
+    # print(e.PEArray[0][1].Psum)
+    #
+    # print(e.PEArray[2][0].Psum)
+    # print(e.PEArray[1][1].Psum)
+    # print(e.PEArray[0][2].Psum)
 
-    print(e.PEArray[2][0].Psum)
-    print(e.PEArray[1][1].Psum)
-    print(e.PEArray[0][2].Psum)
+    # e.__ShowRunningPEState__()
+    e.__ShowAllPEState__()
