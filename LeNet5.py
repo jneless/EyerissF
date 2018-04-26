@@ -14,10 +14,8 @@ pic=np.load('Pic/pic.npy')
 cp=CP()
 ef=EF()
 
-# Picture, FilterWeight,PictureNum,FilterWeightNum=cp.Con2LogicalMapping(pic[np.newaxis],FilterWeights=(ConvLayer1Filter1,ConvLayer1Filter2,
-# 	ConvLayer1Filter3,ConvLayer1Filter4,ConvLayer1Filter5,ConvLayer1Filter6))
-
-Picture, FilterWeight,PictureNum,FilterWeightNum=cp.Con2LogicalMapping(pic[np.newaxis],ConvLayer1Filter1[np.newaxis])
+Picture, FilterWeight,PictureNum,FilterWeightNum=cp.Con2LogicalMapping(pic[np.newaxis],FilterWeights=(ConvLayer1Filter1,ConvLayer1Filter2,
+	ConvLayer1Filter3,ConvLayer1Filter4,ConvLayer1Filter5,ConvLayer1Filter6))
 
 t=list()
 for x in cp.Con2PhysicalMapping(Picture[0], FilterWeight,PictureNum,FilterWeightNum):
