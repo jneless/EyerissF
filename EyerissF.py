@@ -10,7 +10,7 @@ class EyerissF:
     EyerissHeight = conf.EyerissHeight
 
     def __init__(self):
-        pass
+        self.InitPEs()
 
     def Conv2d(self, Picture, FilterWeight):
         PictureColumnLength, FilterWeightColumnLength = self.__DataDeliver__(Picture, FilterWeight)
@@ -37,12 +37,14 @@ class EyerissF:
 
     def __SetPEsRunningState__(self, PictureColumnLength, FilterWeightColumnLength):
 
-
-
+        # 卷积核行数必须小于图片行数
         assert FilterWeightColumnLength <= PictureColumnLength
-        assert FilterWeightColumnLength <= EyerissF.EyerissHeight
-        assert PictureColumnLength <= EyerissF.EyerissHeight + EyerissF.EyerissWidth - 1
 
+        # 卷积核行数必须小于Eyeriss高度
+        assert FilterWeightColumnLength <= EyerissF.EyerissHeight
+
+        #图片行数必须小于 Eyeriss长宽只和-1
+        assert PictureColumnLength <= EyerissF.EyerissHeight + EyerissF.EyerissWidth - 1
 
         for ColumnELement in range(0, FilterWeightColumnLength):
             for RowElement in range(0, PictureColumnLength + 1 - FilterWeightColumnLength):
@@ -89,16 +91,13 @@ class EyerissF:
 
     def __run__(self):
 
-        '''
 
-        整个系统开始计算
-
-        :return:
-        '''
+        #整个系统开始计算
 
         for x in range(0, conf.EyerissHeight):
             for y in range(0, conf.EyerissWidth):
-                self.PEArray[x][y].CountPsum()
+                if self.PEArray[x][y].PEState == conf.Running:
+                    self.PEArray[x][y].CountPsum()
 
     def __PsumTransport__(self, PictureColumnLength, FilterWeightColumnLength):
 
@@ -116,6 +115,9 @@ class EyerissF:
             result.append(np.sum(line, axis=0,dtype=int))
 
         # 将r中全部的卷积值组合成一个矩阵，并返回
+        if result == []:
+            return
+
         return np.vstack(result)
 
     def __ShowPEState__(self,x,y):

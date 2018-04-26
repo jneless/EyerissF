@@ -5,19 +5,23 @@ from IOCompression import *
 import conf
 cp=Compiler()
 
-pic=np.ones((20,5))
-flt=np.ones((5,5))
+pic=np.ones((20,5),dtype=int)
+flt=np.ones((5,5),dtype=int)
 
+
+
+print(pic.shape)
+print(flt.shape)
 e = EyerissF()
-e.InitPEs()
 
 t=list()
-for x in cp.Con2PhysicalMapping(pic,flt):
-    a, b=e.__DataDeliver__(x,flt)
-    e.__run__()
-    e.__ShowStates__()
-    w=e.__PsumTransport__(a,b)
-    e.__SetALLPEsState__(conf.ClockGate)
+for x in cp.Con2PhysicalMapping(pic,flt,1,1):
+    # a, b=e.__DataDeliver__(x,flt)
+    # e.__run__()
+    # e.__ShowStates__()
+    # w=e.__PsumTransport__(a,b)
+    w=e.Conv2d(x,flt)
+
     t.append(w)
     print(w)
 

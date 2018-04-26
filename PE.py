@@ -26,8 +26,7 @@ class PE:
             if y > len(ImageRow):
                 break
 
-            #TODO
-            # Eyeriss有跳0操作，但此处代码没体现
+            #TODO Eyeriss有跳0操作，但此处代码没体现
             r = ImageRow[x:y] * FilterWeight
             result.append(r.sum())
         return np.array(result)
@@ -41,8 +40,8 @@ class PE:
 
         return self.Psum
 
-
 if __name__ == '__main__':
+
     p = PE()
     p.PEState=conf.Running
     p.SetFilterWeight(np.array([1, 1, 1]))

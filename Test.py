@@ -2,25 +2,13 @@ from EyerissF import EyerissF as EF
 import numpy as np
 import time
 
-a=time.time()
+
 
 ef=EF()
-ef.InitPEs()
 
-p=np.array([[4,3,1,0],
-            [2,1,0,1],
-            [1,2,4,1],
-            [3,1,0,2]])
+pic=np.array([[1,2,3,4],[5,6,7,8],[9,10,11,12],[13,14,15,16]])
+pic2=np.hstack((pic,pic))
 
-f=np.array([[1,0,1],
-            [2,1,0],
-            [0,0,1]])
+flt=np.array([[1,2],[3,4]])
 
-r=ef.Conv2d(p,f)
-
-b=time.time()
-
-print(p)
-print(f)
-print(r)
-print(b-a)
+print(ef.Conv2d(pic2,flt))

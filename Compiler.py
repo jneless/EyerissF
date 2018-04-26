@@ -12,13 +12,13 @@ class Compiler:
         # Call should be like :
         # '''Picture,FilterWeight=self.RawStationry(Pictures,FilterWeights)'''
         if len(Pictures) == 1:
-            Picture, FilterWeight = self.FmapReuse(Pictures, FilterWeights)
+            Picture, FilterWeight , PictureNum , FilterNum = self.FmapReuse(Pictures, FilterWeights)
         elif len(FilterWeights) == 1:
             Picture, FilterWeight = self.FilterReuse(Pictures, FilterWeights)
         else:
             Picture, FilterWeight = self.ChannelAccumulation(Pictures, FilterWeights)
 
-        return Picture, FilterWeight
+        return Picture, FilterWeight , PictureNum , FilterNum
 
     def FmapReuse(self, Pictures, FilterWeights):
 
@@ -37,7 +37,7 @@ class Compiler:
             NewArray.append(np.hstack(NewArrayLines))
             NewArrayLines.clear()
         FilterWeight = np.array(NewArray)
-        return Picture, FilterWeight
+        return Picture, FilterWeight ,1 ,len(FilterWeights)
 
     def FilterReuse(self, Pictures, FilterWeights):
 
@@ -54,7 +54,7 @@ class Compiler:
             line.append(np.hstack(l))
             l.clear()
         Picture = np.array(line)
-        return Picture, FilterWeight
+        return Picture, FilterWeight, len(Pictures),1
 
     def ChannelAccumulation(self, Pictures, FilterWeights):
 
@@ -79,9 +79,9 @@ class Compiler:
         FilterWeight = np.array(line)
         line.clear()
 
-        return Picture, FilterWeight
+        return Picture, FilterWeight,len(Pictures),len(FilterWeights)
 
-    def Con2PhysicalMapping(self,Picture, FilterWeight):
+    def Con2PhysicalMapping(self,Picture, FilterWeight,PictureNum , FilterNum):
 
         x = 0
         t=list()
@@ -92,7 +92,12 @@ class Compiler:
             t.append(P)
 
         P=Picture[conf.EyerissWidth * x:]
-        t.append(P)
+
+        #判断逻辑矩阵的尾巴，并删除多余的图
+        if len(Picture[conf.EyerissWidth * x:]) < len(FilterWeight) :
+            pass
+        else :
+            t.append(P)
 
 
         return t
