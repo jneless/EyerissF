@@ -20,21 +20,72 @@ class PE:
         self.ImageRow = ImageRow
 
     def __Conv1d__(self, ImageRow, FilterWeight):
-
-
-        # TODO 改变Conv1d的计算方式，参数中加入 图片数量和Filter数量
-
-
         result = list()
         for x in range(0, len(ImageRow) - 1 + len(FilterWeight)):
             y = x + len(FilterWeight)
             if y > len(ImageRow):
                 break
-
-            #TODO Eyeriss有跳0操作，但此处代码没体现
             r = ImageRow[x:y] * FilterWeight
             result.append(r.sum())
         return np.array(result)
+
+    def __Conv1dCodingTest__(self, ImageRow, FilterWeight,ImageNum,FilterNum):
+
+
+        l=list()
+
+
+        if FilterNum==1 and ImageNum==1:
+
+            # 图和核都为1 直接运行卷积
+            return self.__Conv1d__(ImageRow, FilterWeight)
+        else:
+
+            # 核为1 ， Image重用
+            if FilterNum==1:
+
+                # 分割图为原始的小型图
+                pics=np.vsplit(ImageRow,ImageNum)
+
+                # 遍历，卷积
+                for x in pics:
+
+                    # 卷积后的结果加入l中临时保存
+                    l.append(self.__Conv1d__(x,FilterWeight))
+
+                    # 将l中的结果组合成一个新的矩阵
+                    # 横向组合
+                    result=np.vstack(np.array(l))
+
+                # 返回结果
+                return result
+
+            # 图为1 ，filter重用
+            if ImageNum==1:
+
+                # 将ImageRow变为矩阵
+                ImageRow=np.reshape(ImageRow,(ImageRow.size/ImageNum,ImageNum))
+                flts=ImageRow=np.array(ImageRow.T)
+                for x in flts:
+                    l.append(self.__Conv1d__(ImageRow,x))
+                result = np.array(l)
+                result=result.T
+                result=np.reshape(result,(1,result.size))
+                return result
+
+
+
+                '''
+                多个filter是打乱之后传入
+                需要先变成正常形状，再卷积，再把卷积结果打乱传出
+                上层接受到以后，再把打乱的结果变成正常结果
+                '''
+
+
+
+                ...
+
+        #TODO 加入多channel的情况
 
     def CountPsum(self):
 
