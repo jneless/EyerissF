@@ -10,6 +10,7 @@ flt=np.ones((5,5),dtype=int)
 
 
 
+
 print(pic.shape)
 print(flt.shape)
 e = EyerissF()
@@ -20,7 +21,7 @@ for x in cp.Con2PhysicalMapping(pic,flt,1,1):
     # e.__run__()
     # e.__ShowStates__()
     # w=e.__PsumTransport__(a,b)
-    w=e.Conv2d(x,flt)
+    w=e.Conv2d(x,flt,1,1)
 
     t.append(w)
     print(w)

@@ -10,17 +10,17 @@ class EyerissF:
     EyerissHeight = conf.EyerissHeight
 
     def __init__(self):
-        self.InitPEs()
+        self.__InitPEs__()
 
-    def Conv2d(self, Picture, FilterWeight):
-        PictureColumnLength, FilterWeightColumnLength = self.__DataDeliver__(Picture, FilterWeight)
+    def Conv2d(self, Picture, FilterWeight,ImageNum,FilterNum):
+        PictureColumnLength, FilterWeightColumnLength = self.__DataDeliver__(Picture, FilterWeight,ImageNum,FilterNum)
         self.__run__()
         ConvedArray = self.__PsumTransport__(PictureColumnLength, FilterWeightColumnLength)
         ReluedConvedArray = Relu(ConvedArray)
         self.__SetALLPEsState__(conf.ClockGate)
         return ReluedConvedArray
 
-    def InitPEs(self, PEsWidth=conf.EyerissWidth, PEsHeight=conf.EyerissHeight):
+    def __InitPEs__(self, PEsWidth=conf.EyerissWidth, PEsHeight=conf.EyerissHeight):
         self.PEArray = list()
         for x in range(0, PEsHeight):
             self.PEArray.append(list())
@@ -53,7 +53,7 @@ class EyerissF:
                 except:
                     pass
 
-    def __DataDeliver__(self, Picture, FilterWeight):
+    def __DataDeliver__(self, Picture, FilterWeight,ImageNum,FilterNum):
         # put the pic and filter row data into PEArray
 
         # Eyeriss越界检查
@@ -66,6 +66,7 @@ class EyerissF:
         PictureColumnLength = len(Picture)
         FilterWeightColumnLength = len(FilterWeight)
 
+        self.__SetPEConf__(ImageNum,FilterNum)
         self.__SetPEsRunningState__(PictureColumnLength, FilterWeightColumnLength)
 
         # filterWeight 从左到右
@@ -183,6 +184,11 @@ class EyerissF:
             yy = []
         print("一共有", c, "个PE正在运行")
         print(np.array(xx))
+
+    def __SetPEConf__(self,ImageNum,FilterNum):
+        for ColumnELement in range(0, EyerissF.EyerissHeight):
+            for RowElement in range(0, EyerissF.EyerissWidth):
+                self.PEArray[ColumnELement][RowElement].SetPEConf(ImageNum,FilterNum)
 
 
 if __name__ == '__main__':

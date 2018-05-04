@@ -29,8 +29,13 @@ class PE:
             result.append(r.sum())
         return np.array(result)
 
-    def __Conv1dCodingTest__(self, ImageRow, FilterWeight,ImageNum,FilterNum):
+    def __Conv__(self):
 
+        ImageRow=self.ImageRow
+        FilterWeight=self.FilterWeight
+
+        ImageNum=self.ImageNum
+        FilterNum=self.FilterNum
 
         l=list()
 
@@ -41,11 +46,11 @@ class PE:
             return self.__Conv1d__(ImageRow, FilterWeight)
         else:
 
-            # 核为1 ， Image重用
+            # 核为1 ， filter重用
             if FilterNum==1:
 
                 # 分割图为原始的小型图
-                pics=np.vsplit(ImageRow,ImageNum)
+                pics=np.hsplit(ImageRow,ImageNum)
 
                 # 遍历，卷积
                 for x in pics:
@@ -55,17 +60,19 @@ class PE:
 
                     # 将l中的结果组合成一个新的矩阵
                     # 横向组合
-                    result=np.vstack(np.array(l))
+                    result=np.hstack(np.array(l))
 
                 # 返回结果
                 return result
 
-            # 图为1 ，filter重用
+            # 图为1 ，img重用
             if ImageNum==1:
 
-                # 将ImageRow变为矩阵
-                ImageRow=np.reshape(ImageRow,(ImageRow.size/ImageNum,ImageNum))
-                flts=ImageRow=np.array(ImageRow.T)
+
+                # 将FilterWeight变为矩阵
+                FilterWeight = np.reshape(FilterWeight, (int(FilterWeight.size / FilterNum),FilterNum))
+                flts=np.array(FilterWeight.T)
+
                 for x in flts:
                     l.append(self.__Conv1d__(ImageRow,x))
                 result = np.array(l)
@@ -73,17 +80,17 @@ class PE:
                 result=np.reshape(result,(1,result.size))
                 return result
 
-
-
                 '''
                 多个filter是打乱之后传入
                 需要先变成正常形状，再卷积，再把卷积结果打乱传出
                 上层接受到以后，再把打乱的结果变成正常结果
+                
+                
+                示例输入[1,1,1,1],[1,2,1,2],1,2
+                返回 [2 4 2 4 2 4] 是 [2,2,2] [4,4,4]的合并
+                
                 '''
 
-
-
-                ...
 
         #TODO 加入多channel的情况
 
@@ -92,15 +99,28 @@ class PE:
         if self.PEState == conf.ClockGate:
             self.Psum = conf.EmptyPsum
         elif self.PEState == conf.Running:
-            self.Psum = self.__Conv1d__(self.ImageRow,self.FilterWeight)
+            # self.Psum = self.__Conv1d__(self.ImageRow,self.FilterWeight)
+
+            self.Psum = self.__Conv__()
+            #TODO
+            #self.Psum = self.__Conv__()
 
         return self.Psum
+
+    def SetPEConf(self,ImageNum,FilterNum):
+        self.ImageNum=ImageNum
+        self.FilterNum=FilterNum
+
+
 
 if __name__ == '__main__':
 
     p = PE()
-    p.PEState=conf.Running
-    p.SetFilterWeight(np.array([1, 1, 1]))
-    p.SetImageRow(np.array([1, 1, 1, 1, 1]))
-    r=p.CountPsum()
-    print(r)
+    p.SetPEState(conf.Running)
+
+    img=np.array([1,1,1,1])
+    flt = np.array([1, 2,1,2])
+
+    p.SetPEConf(1,2)
+    print(p.__Conv__(img,flt))
+

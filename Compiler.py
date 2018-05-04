@@ -12,13 +12,13 @@ class Compiler:
         # Call should be like :
         # '''Picture,FilterWeight=self.RawStationry(Pictures,FilterWeights)'''
         if len(Pictures) == 1:
-            Picture, FilterWeight , PictureNum , FilterNum = self.FmapReuse(Pictures, FilterWeights)
+            Picture, FilterWeight, PictureNum, FilterNum = self.FmapReuse(Pictures, FilterWeights)
         elif len(FilterWeights) == 1:
-            Picture, FilterWeight = self.FilterReuse(Pictures, FilterWeights)
+            Picture, FilterWeight, PictureNum, FilterNum = self.FilterReuse(Pictures, FilterWeights)
         else:
-            Picture, FilterWeight = self.ChannelAccumulation(Pictures, FilterWeights)
+            Picture, FilterWeight, PictureNum, FilterNum = self.ChannelAccumulation(Pictures, FilterWeights)
 
-        return Picture, FilterWeight , PictureNum , FilterNum
+        return Picture, FilterWeight, PictureNum, FilterNum
 
     def FmapReuse(self, Pictures, FilterWeights):
 
@@ -37,7 +37,7 @@ class Compiler:
             NewArray.append(np.hstack(NewArrayLines))
             NewArrayLines.clear()
         FilterWeight = np.array(NewArray)
-        return Picture, FilterWeight ,1 ,len(FilterWeights)
+        return Picture, FilterWeight, 1, len(FilterWeights)
 
     def FilterReuse(self, Pictures, FilterWeights):
 
@@ -54,7 +54,7 @@ class Compiler:
             line.append(np.hstack(l))
             l.clear()
         Picture = np.array(line)
-        return Picture, FilterWeight, len(Pictures),1
+        return Picture, FilterWeight, len(Pictures), 1
 
     def ChannelAccumulation(self, Pictures, FilterWeights):
 
@@ -79,39 +79,35 @@ class Compiler:
         FilterWeight = np.array(line)
         line.clear()
 
-        return Picture, FilterWeight,len(Pictures),len(FilterWeights)
+        return Picture, FilterWeight, len(Pictures), len(FilterWeights)
 
-    def Con2PhysicalMapping(self,Picture, FilterWeight,PictureNum , FilterNum):
+    def Con2PhysicalMapping(self, Picture, FilterWeight, PictureNum, FilterNum):
 
         x = 0
-        t=list()
-        while conf.EyerissWidth * x + conf.EyerissWidth + len(FilterWeight) -1 < len(FilterWeight) + len(Picture) -1:
-
-            P=Picture[conf.EyerissWidth * x : conf.EyerissWidth * x + conf.EyerissWidth + len(FilterWeight) -1 ]
-            x=x+1
+        t = list()
+        while conf.EyerissWidth * x + conf.EyerissWidth + len(FilterWeight) - 1 < len(FilterWeight) + len(Picture) - 1:
+            P = Picture[conf.EyerissWidth * x: conf.EyerissWidth * x + conf.EyerissWidth + len(FilterWeight) - 1]
+            x = x + 1
             t.append(P)
 
-        P=Picture[conf.EyerissWidth * x:]
+        P = Picture[conf.EyerissWidth * x:]
 
-        #判断逻辑矩阵的尾巴，并删除多余的图
-        if len(Picture[conf.EyerissWidth * x:]) < len(FilterWeight) :
+        # 判断逻辑矩阵的尾巴，并删除多余的图
+        if len(Picture[conf.EyerissWidth * x:]) < len(FilterWeight):
             pass
-        else :
+        else:
             t.append(P)
 
+        return t,PictureNum, FilterNum
 
-        return t
 
-
-if __name__=="__main__":
-    cp=Compiler()
+if __name__ == "__main__":
+    cp = Compiler()
 
     # Pic=np.random.randint(-1,2,(100,2))
     # flt=np.random.randint(-1,2,(5,2))
 
-    pic=np.ones((20,5),dtype=int)
-    flt=np.ones((5,5),dtype=int)
+    pic = np.ones((20, 5), dtype=int)
+    flt = np.ones((5, 5), dtype=int)
 
-
-    print(cp.Con2PhysicalMapping(pic,flt))
-
+    print(cp.Con2PhysicalMapping(pic, flt,1,1))
