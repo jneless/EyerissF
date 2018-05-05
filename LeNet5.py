@@ -21,11 +21,15 @@ t=list()
 map,ImageNum,FilterWeightNum=cp.Con2PhysicalMapping(Picture[0], FilterWeight,PictureNum,FilterWeightNum)
 print(ImageNum,FilterWeightNum)
 
+
+# TODO  write new funx in compiler.py to box the following operations
+
 for x in map:
     w=ef.Conv2d(x,FilterWeight,ImageNum,FilterWeightNum)
     t.append(w)
 
 bb=np.vstack(t)
+print(bb)
 print(bb.shape)
 
 

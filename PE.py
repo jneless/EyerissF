@@ -102,8 +102,6 @@ class PE:
             # self.Psum = self.__Conv1d__(self.ImageRow,self.FilterWeight)
 
             self.Psum = self.__Conv__()
-            #TODO
-            #self.Psum = self.__Conv__()
 
         return self.Psum
 
