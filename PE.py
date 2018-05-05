@@ -109,8 +109,6 @@ class PE:
         self.ImageNum=ImageNum
         self.FilterNum=FilterNum
 
-
-
 if __name__ == '__main__':
 
     p = PE()

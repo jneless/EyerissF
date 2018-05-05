@@ -101,13 +101,48 @@ class Compiler:
         return t,PictureNum, FilterNum
 
 
+    def ReverseFmapReuse(self, Psum,PsumNum):
+
+        SubMap=np.hsplit(Psum, np.shape(Psum)[1]/PsumNum)
+
+        l=[]
+        m=[]
+
+        for x in range(0,PsumNum):
+            for y in range(len(SubMap)):
+
+                # [np.newaxis]会使返回的向量为列向量
+                l.append(np.transpose(np.array(SubMap[y][:, x])[np.newaxis]))
+            m.append(np.hstack(l))
+            l=[]
+        return m
+
+
+        ...
+
+    def ReverseFilterReuse(self, Psum,PsumNum):
+        return np.hsplit(Psum,PsumNum)
+
+
+
 if __name__ == "__main__":
     cp = Compiler()
 
-    # Pic=np.random.randint(-1,2,(100,2))
-    # flt=np.random.randint(-1,2,(5,2))
+    # pic=np.ones((1,16),dtype=int)
+    # pic=pic.reshape(2,8)
+    # pic[:,4:]=2
+    # print("pic = ",pic)
+    # print("**********************")
+    #
+    # for x in  cp.ReverseFilterReuse(pic,4):
+    #     print(x)
 
-    pic = np.ones((20, 5), dtype=int)
-    flt = np.ones((5, 5), dtype=int)
 
-    print(cp.Con2PhysicalMapping(pic, flt,1,1))
+    pic=np.ones((1,16),dtype=int)
+    pic=pic.reshape(8,2)
+    pic[:,1:]=2
+    pic=np.reshape(pic,(2,8))
+    print(pic)
+    for x in  cp.ReverseFmapReuse(pic,4):
+        print(x)
+

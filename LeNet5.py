@@ -10,7 +10,7 @@ ConvLayer1Filter4=np.load('ConvLayerFilter/ConvLayer1Filter4.npy')
 ConvLayer1Filter5=np.load('ConvLayerFilter/ConvLayer1Filter5.npy')
 ConvLayer1Filter6=np.load('ConvLayerFilter/ConvLayer1Filter6.npy')
 pic=np.load('Pic/pic.npy')
-print(pic.shape)
+
 cp=CP()
 ef=EF()
 
@@ -18,6 +18,9 @@ Picture, FilterWeight,PictureNum,FilterWeightNum=cp.Con2LogicalMapping(pic[np.ne
 	ConvLayer1Filter3,ConvLayer1Filter4,ConvLayer1Filter5,ConvLayer1Filter6))
 
 t=list()
+
+#map是eyeriss每次实际处理的形状
+
 map,ImageNum,FilterWeightNum=cp.Con2PhysicalMapping(Picture[0], FilterWeight,PictureNum,FilterWeightNum)
 print(ImageNum,FilterWeightNum)
 
@@ -29,6 +32,10 @@ for x in map:
     t.append(w)
 
 bb=np.vstack(t)
+
+
+
+
 print(bb)
 print(bb.shape)
 
