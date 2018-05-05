@@ -19,10 +19,6 @@ print("Eyeriss启动")
 cp=CP()
 print("驱动加载完成")
 
-
-print("一层卷积 + 池化")
-
-
 pic=np.load('pic/pic.npy')
 print("输入图片尺寸",pic.shape)
 
@@ -51,23 +47,20 @@ bb=np.vstack(t)
 print("卷积后整体尺寸 :",bb.shape)
 
 
-print("卷积结果：  6 * 28*28",)
-print("池化后：  6 * 14*14",)
-
 x=cp.ReverseFmapReuse(bb,6)
 
-# n=0
-# for y in x :
-#     n=n+1
-#     print("第",n,"个卷积后的图片尺寸为 :",y.shape)
+n=0
+for y in x :
+    n=n+1
+    print("第",n,"个卷积后的图片尺寸为 :",y.shape)
 
 for y in range(len(x)):
     x[y]=MAXPooling(x[y])
 
-# n=0
-# for y in x :
-#     n = n + 1
-#     print("第",n,"个图片池化后尺寸为 :",y.shape)
+n=0
+for y in x :
+    n = n + 1
+    print("第",n,"个图片池化后尺寸为 :",y.shape)
 
 
 print("二层卷积 + 池化")
@@ -139,26 +132,23 @@ bb=np.vstack(t)
 
 
 print("卷积后整体尺寸 :",bb.shape)
-print("卷积结果：  16 * 10*10",)
-print("池化后：  16 * 5*5",)
-
 
 x=cp.ReverseFmapReuse(bb,16)
 
 
 
-# n=0
-# for y in x :
-#     n=n+1
-#     print("第",n,"个卷积后的图片尺寸为 :",y.shape)
+n=0
+for y in x :
+    n=n+1
+    print("第",n,"个卷积后的图片尺寸为 :",y.shape)
 
 for y in range(len(x)):
     x[y]=MAXPooling(x[y])
 
-# n=0
-# for y in x :
-#     n = n + 1
-#     print("第",n,"个图片池化后尺寸为 :",y.shape)
+n=0
+for y in x :
+    n = n + 1
+    print("第",n,"个图片池化后尺寸为 :",y.shape)
 
 arr=[]
 
