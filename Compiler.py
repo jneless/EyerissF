@@ -103,7 +103,10 @@ class Compiler:
 
     def ReverseFmapReuse(self, Psum,PsumNum):
 
-        SubMap=np.hsplit(Psum, np.shape(Psum)[1]/PsumNum)
+        #TODO delete the introduction below
+        #print("int(np.shape(Psum)[1]/PsumNum) :",int(np.shape(Psum)[1]/PsumNum))
+        SubMap=np.hsplit(Psum, int(np.shape(Psum)[1]/PsumNum))
+
 
         l=[]
         m=[]
