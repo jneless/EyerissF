@@ -5,20 +5,90 @@ import EyerissF
 
 class Compiler:
 
-    def __init__(self):
-        pass
+    def __init__(self, EyerissF):
+        self.EyerissF = EyerissF
 
-    def Con2LogicalMapping(self, Pictures, FilterWeights):
-        # Call should be like :
-        # '''Picture,FilterWeight=self.RawStationry(Pictures,FilterWeights)'''
-        if len(Pictures) == 1:
-            Picture, FilterWeight, PictureNum, FilterNum = self.FmapReuse(Pictures, FilterWeights)
-        elif len(FilterWeights) == 1:
-            Picture, FilterWeight, PictureNum, FilterNum = self.FilterReuse(Pictures, FilterWeights)
+    def input(self, Picture, FilterWeight, PictureNum, FilterNum):
+        self.Picture = Picture
+        self.FilterWeight = FilterWeight
+        self.PictureNum = PictureNum
+        self.FilterNum = FilterNum
+
+    def __SetPicAndFlt__(self, Picture, FilterWeight):
+        self.Picture = Picture
+        self.FilterWeight = FilterWeight
+
+    def __SetPhysicalMapping__(self, mapping):
+        self.mapping = mapping
+
+    def Con2LogicalMapping(self):
+
+        Pictures = self.Picture
+        FilterWeights = self.FilterWeight
+
+        if self.PictureNum == 1:
+            self.FmapReuse(Pictures, FilterWeights)
+        elif self.FilterNum == 1:
+            self.FilterReuse(Pictures, FilterWeights)
         else:
-            Picture, FilterWeight, PictureNum, FilterNum = self.ChannelAccumulation(Pictures, FilterWeights)
+            self.ChannelAccumulation(Pictures, FilterWeights)
 
-        return Picture, FilterWeight, PictureNum, FilterNum
+    def Con2PhysicalMapping(self):
+
+        FilterWeight = self.FilterWeight
+
+
+        if self.PictureNum==1:  #一个图片多个卷积核
+            Picture = self.Picture[0]
+            FilterWeight = self.FilterWeight
+
+
+        elif self.FilterNum==1: # 一个卷积核，多个图片
+            Picture = self.Picture
+            FilterWeight = self.FilterWeight[0]
+
+        x = 0
+        t = list()
+        while conf.EyerissWidth * x + conf.EyerissWidth + len(FilterWeight) - 1 < len(FilterWeight) + len(Picture) - 1:
+            P = Picture[conf.EyerissWidth * x: conf.EyerissWidth * x + conf.EyerissWidth + len(FilterWeight) - 1]
+            x = x + 1
+            t.append(P)
+
+        P = Picture[conf.EyerissWidth * x:]
+
+        # 判断逻辑矩阵的尾巴，并删除多余的图
+        if len(Picture[conf.EyerissWidth * x:]) < len(FilterWeight):
+            pass
+        else:
+            t.append(P)
+
+
+        self.__SetPhysicalMapping__(t)
+
+    def Conv2d(self):
+
+        t = []
+        map = self.mapping
+        for x in map:
+
+            if self.FilterNum==1:
+                w = self.EyerissF.Conv2d(x, self.FilterWeight[0], self.PictureNum, self.FilterNum)
+            elif self.PictureNum==1:
+                w = self.EyerissF.Conv2d(x, self.FilterWeight, self.PictureNum, self.FilterNum)
+
+            t.append(w)
+
+        self.TempPsum = np.vstack(t)
+
+    def Reverse(self):
+
+        Psum = self.TempPsum
+
+        if self.PictureNum == 1:
+            return self.ReverseFmapReuse(Psum, self.FilterNum)
+
+        elif self.FilterNum == 1:
+            return self.ReverseFilterReuse(Psum, self.PictureNum)
 
     def FmapReuse(self, Pictures, FilterWeights):
 
@@ -26,7 +96,7 @@ class Compiler:
 
         NewArray = list()
         NewArrayLines = list()
-        Picture = Pictures
+
         for x in range(0, len(FilterWeights[0])):
             # third, move the next pic NewArray
             for y in range(0, len(FilterWeights[0][0])):
@@ -37,13 +107,13 @@ class Compiler:
             NewArray.append(np.hstack(NewArrayLines))
             NewArrayLines.clear()
         FilterWeight = np.array(NewArray)
-        return Picture, FilterWeight, 1, len(FilterWeights)
+
+        self.__SetPicAndFlt__(Pictures, FilterWeight)
 
     def FilterReuse(self, Pictures, FilterWeights):
 
         assert len(FilterWeights) == 1
 
-        FilterWeight = FilterWeights
         l = list()
         line = list()
         for y in range(0, len(Pictures[0])):
@@ -54,7 +124,7 @@ class Compiler:
             line.append(np.hstack(l))
             l.clear()
         Picture = np.array(line)
-        return Picture, FilterWeight, len(Pictures), 1
+        self.__SetPicAndFlt__(Picture, FilterWeights)
 
     def ChannelAccumulation(self, Pictures, FilterWeights):
 
@@ -79,73 +149,27 @@ class Compiler:
         FilterWeight = np.array(line)
         line.clear()
 
-        return Picture, FilterWeight, len(Pictures), len(FilterWeights)
+        self.__SetPicAndFlt__(Picture, FilterWeight)
 
-    def Con2PhysicalMapping(self, Picture, FilterWeight, PictureNum, FilterNum):
-
-        x = 0
-        t = list()
-        while conf.EyerissWidth * x + conf.EyerissWidth + len(FilterWeight) - 1 < len(FilterWeight) + len(Picture) - 1:
-            P = Picture[conf.EyerissWidth * x: conf.EyerissWidth * x + conf.EyerissWidth + len(FilterWeight) - 1]
-            x = x + 1
-            t.append(P)
-
-        P = Picture[conf.EyerissWidth * x:]
-
-        # 判断逻辑矩阵的尾巴，并删除多余的图
-        if len(Picture[conf.EyerissWidth * x:]) < len(FilterWeight):
-            pass
-        else:
-            t.append(P)
-
-        return t,PictureNum, FilterNum
+    def ReverseFmapReuse(self, Psum, PsumNum):
 
 
-    def ReverseFmapReuse(self, Psum,PsumNum):
+        SubMap = np.hsplit(Psum, int(np.shape(Psum)[1] / PsumNum))
 
-        #TODO delete the introduction below
-        #print("int(np.shape(Psum)[1]/PsumNum) :",int(np.shape(Psum)[1]/PsumNum))
-        SubMap=np.hsplit(Psum, int(np.shape(Psum)[1]/PsumNum))
+        l = []
+        m = []
 
-
-        l=[]
-        m=[]
-
-        for x in range(0,PsumNum):
+        for x in range(0, PsumNum):
             for y in range(len(SubMap)):
-
                 # [np.newaxis]会使返回的向量为列向量
                 l.append(np.transpose(np.array(SubMap[y][:, x])[np.newaxis]))
             m.append(np.hstack(l))
-            l=[]
+            l = []
         return m
 
-
-        ...
-
-    def ReverseFilterReuse(self, Psum,PsumNum):
-        return np.hsplit(Psum,PsumNum)
-
+    def ReverseFilterReuse(self, Psum, PsumNum):
+        return np.hsplit(Psum, PsumNum)
 
 
 if __name__ == "__main__":
-    cp = Compiler()
-
-    # pic=np.ones((1,16),dtype=int)
-    # pic=pic.reshape(2,8)
-    # pic[:,4:]=2
-    # print("pic = ",pic)
-    # print("**********************")
-    #
-    # for x in  cp.ReverseFilterReuse(pic,4):
-    #     print(x)
-
-
-    pic=np.ones((1,16),dtype=int)
-    pic=pic.reshape(8,2)
-    pic[:,1:]=2
-    pic=np.reshape(pic,(2,8))
-    print(pic)
-    for x in  cp.ReverseFmapReuse(pic,4):
-        print(x)
-
+    ...

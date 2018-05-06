@@ -91,8 +91,6 @@ class EyerissF:
         return PictureColumnLength, FilterWeightColumnLength
 
     def __run__(self):
-
-
         #整个系统开始计算
 
         for x in range(0, conf.EyerissHeight):
@@ -192,44 +190,4 @@ class EyerissF:
 
 
 if __name__ == '__main__':
-
-    Pic1 = np.random.randint(-5,6,(5,5))
-    Pic2 = np.random.randint(-9,2, (3,3))
-
-    print("图片为 :")
-
-    print(Pic1)
-    print("卷积核为 :")
-    print(Pic2)
-
-    print("图片大小 :",Pic1.shape)
-    print("卷积核大小 :",Pic2.shape)
-
-
-    e = EyerissF()
-    e.InitPEs()
-
-    a,b=e.__DataDeliver__(Pic1, Pic2)
-
-    e.__ShowStates__()
-    e.__run__()
-    x=e.__PsumTransport__(a,b)
-
-    x=Relu(x)
-
-    print("Relu后的输出矩阵 :")
-    print(x)
-
-    x,r=Compress(x,1)
-    print('压缩 :')
-    print(x)
-    print('压缩率 :', r)
-
-    x=Decompress(x)
-    print('解压缩 :')
-    print(x)
-
-
-
-
-
+    ...

@@ -49,7 +49,8 @@ class PE:
             # 核为1 ， filter重用
             if FilterNum==1:
 
-                # 分割图为原始的小型图
+                # 水平分割为原始图的每一行
+
                 pics=np.hsplit(ImageRow,ImageNum)
 
                 # 遍历，卷积
@@ -115,8 +116,11 @@ if __name__ == '__main__':
     p.SetPEState(conf.Running)
 
     img=np.array([1,1,1,1])
-    flt = np.array([1, 2,1,2])
+    flt = np.array([1,1])
 
-    p.SetPEConf(1,2)
-    print(p.__Conv__(img,flt))
+    p.SetPEConf(2,1)
+    p.SetImageRow(img)
+    p.SetFilterWeight(flt)
+
+    print(p.__Conv__())
 
