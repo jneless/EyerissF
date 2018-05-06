@@ -45,5 +45,4 @@ cp.input(pic,flt[np.newaxis], 2, 1)
 cp.Con2LogicalMapping()
 cp.Con2PhysicalMapping()
 cp.Conv2d()
-
 cp.Reverse()
