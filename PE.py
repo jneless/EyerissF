@@ -19,6 +19,13 @@ class PE:
     def SetImageRow(self, ImageRow):
         self.ImageRow = ImageRow
 
+    def SetPEImgAndFlt(self, ImageNum, FilterNum):
+        self.ImageNum=ImageNum
+        self.FilterNum=FilterNum
+
+    def __SetPsum__(self, Psum):
+        self.Psum=Psum
+
     def __Conv1d__(self, ImageRow, FilterWeight):
         result = list()
         for x in range(0, len(ImageRow) - 1 + len(FilterWeight)):
@@ -96,19 +103,10 @@ class PE:
         #TODO 加入多channel的情况
 
     def CountPsum(self):
-
         if self.PEState == conf.ClockGate:
-            self.Psum = conf.EmptyPsum
+            self.__SetPsum__(conf.EmptyPsum)
         elif self.PEState == conf.Running:
-            # self.Psum = self.__Conv1d__(self.ImageRow,self.FilterWeight)
-
-            self.Psum = self.__Conv__()
-
-        return self.Psum
-
-    def SetPEConf(self,ImageNum,FilterNum):
-        self.ImageNum=ImageNum
-        self.FilterNum=FilterNum
+            self.__SetPsum__(self.__Conv__())
 
 if __name__ == '__main__':
 
@@ -118,7 +116,7 @@ if __name__ == '__main__':
     img=np.array([1,1,1,1])
     flt = np.array([1,1])
 
-    p.SetPEConf(2,1)
+    p.SetPEImgAndFlt(2, 1)
     p.SetImageRow(img)
     p.SetFilterWeight(flt)
 

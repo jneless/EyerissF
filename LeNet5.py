@@ -47,7 +47,7 @@ bb=np.vstack(t)
 print("卷积后整体尺寸 :",bb.shape)
 
 
-x=cp.ReverseFmapReuse(bb,6)
+x=cp.__ReverseFmapReuse__(bb, 6)
 
 n=0
 for y in x :
@@ -133,7 +133,7 @@ bb=np.vstack(t)
 
 print("卷积后整体尺寸 :",bb.shape)
 
-x=cp.ReverseFmapReuse(bb,16)
+x=cp.__ReverseFmapReuse__(bb, 16)
 
 
 

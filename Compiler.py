@@ -27,11 +27,11 @@ class Compiler:
         FilterWeights = self.FilterWeight
 
         if self.PictureNum == 1:
-            self.FmapReuse(Pictures, FilterWeights)
+            self.__FmapReuse__(Pictures, FilterWeights)
         elif self.FilterNum == 1:
-            self.FilterReuse(Pictures, FilterWeights)
+            self.__FilterReuse__(Pictures, FilterWeights)
         else:
-            self.ChannelAccumulation(Pictures, FilterWeights)
+            self.__ChannelAccumulation__(Pictures, FilterWeights)
 
     def Con2PhysicalMapping(self):
 
@@ -85,12 +85,12 @@ class Compiler:
         Psum = self.TempPsum
 
         if self.PictureNum == 1:
-            return self.ReverseFmapReuse(Psum, self.FilterNum)
+            return self.__ReverseFmapReuse__(Psum, self.FilterNum)
 
         elif self.FilterNum == 1:
-            return self.ReverseFilterReuse(Psum, self.PictureNum)
+            return self.__ReverseFilterReuse__(Psum, self.PictureNum)
 
-    def FmapReuse(self, Pictures, FilterWeights):
+    def __FmapReuse__(self, Pictures, FilterWeights):
 
         assert len(Pictures) == 1
 
@@ -110,7 +110,7 @@ class Compiler:
 
         self.__SetPicAndFlt__(Pictures, FilterWeight)
 
-    def FilterReuse(self, Pictures, FilterWeights):
+    def __FilterReuse__(self, Pictures, FilterWeights):
 
         assert len(FilterWeights) == 1
 
@@ -126,7 +126,7 @@ class Compiler:
         Picture = np.array(line)
         self.__SetPicAndFlt__(Picture, FilterWeights)
 
-    def ChannelAccumulation(self, Pictures, FilterWeights):
+    def __ChannelAccumulation__(self, Pictures, FilterWeights):
 
         line = list()
         l = list()
@@ -151,8 +151,7 @@ class Compiler:
 
         self.__SetPicAndFlt__(Picture, FilterWeight)
 
-    def ReverseFmapReuse(self, Psum, PsumNum):
-
+    def __ReverseFmapReuse__(self, Psum, PsumNum):
 
         SubMap = np.hsplit(Psum, int(np.shape(Psum)[1] / PsumNum))
 
@@ -167,7 +166,7 @@ class Compiler:
             l = []
         return m
 
-    def ReverseFilterReuse(self, Psum, PsumNum):
+    def __ReverseFilterReuse__(self, Psum, PsumNum):
         return np.hsplit(Psum, PsumNum)
 
 

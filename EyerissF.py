@@ -53,6 +53,11 @@ class EyerissF:
                 except:
                     pass
 
+    def __SetALLPEImgNumAndFltNum__(self, ImageNum, FilterNum):
+        for ColumnELement in range(0, EyerissF.EyerissHeight):
+            for RowElement in range(0, EyerissF.EyerissWidth):
+                self.PEArray[ColumnELement][RowElement].SetPEImgAndFlt(ImageNum, FilterNum)
+
     def __DataDeliver__(self, Picture, FilterWeight,ImageNum,FilterNum):
         # put the pic and filter row data into PEArray
 
@@ -66,7 +71,7 @@ class EyerissF:
         PictureColumnLength = len(Picture)
         FilterWeightColumnLength = len(FilterWeight)
 
-        self.__SetPEConf__(ImageNum,FilterNum)
+        self.__SetALLPEImgNumAndFltNum__(ImageNum, FilterNum)
         self.__SetPEsRunningState__(PictureColumnLength, FilterWeightColumnLength)
 
         # filterWeight 从左到右
@@ -183,10 +188,6 @@ class EyerissF:
         print("一共有", c, "个PE正在运行")
         print(np.array(xx))
 
-    def __SetPEConf__(self,ImageNum,FilterNum):
-        for ColumnELement in range(0, EyerissF.EyerissHeight):
-            for RowElement in range(0, EyerissF.EyerissWidth):
-                self.PEArray[ColumnELement][RowElement].SetPEConf(ImageNum,FilterNum)
 
 
 if __name__ == '__main__':
