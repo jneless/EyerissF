@@ -1,11 +1,12 @@
 from Compiler import Compiler
 from EyerissF import EyerissF as EF
 import numpy as np
+import IOCompression
 
 ef = EF()
 cp = Compiler(ef)
 
-pic1 = np.load('pic/pic.npy') # pic1 = 32 * 32 pixs
+pic1 = np.load('pic/pic.npy')  # pic1 = 32 * 32 pixs
 pic = []
 pic.append(pic1)
 
@@ -23,26 +24,40 @@ flt.append(ConvLayer1Filter4)
 flt.append(ConvLayer1Filter5)
 flt.append(ConvLayer1Filter6)
 
+pic, flt = IOCompression.InputCompress(pic, flt)
 
+for x in range(len(pic)):
+    print(pic[x])
 
+for x in range(len(flt)):
+    print(flt[x])
 
-cp.input(pic,flt, 1, 6)
+cp.input(pic, flt, 1, 6)
 cp.Con2LogicalMapping()
 cp.Con2PhysicalMapping()
 cp.Conv2d()
 cp.Reverse()
+x = cp.GetReturnImgs()
+for y in x:
+    print("y:", y)
 
 ###########################################################################################
 
 
-pic=[]
-pic.append(np.zeros((4,4),dtype=int))
-pic.append(np.ones((4,4),dtype=int))
+pic = []
+pic.append(np.zeros((4, 4), dtype=int))
+pic.append(np.ones((4, 4), dtype=int))
 
-flt=np.ones((2,2))
+flt = []
+flt.append(np.ones((2, 2), dtype=int))
 
-cp.input(pic,flt[np.newaxis], 2, 1)
+pic, flt = IOCompression.InputCompress(pic, flt)
+
+cp.input(pic, flt, 2, 1)
 cp.Con2LogicalMapping()
 cp.Con2PhysicalMapping()
 cp.Conv2d()
 cp.Reverse()
+x = cp.GetReturnImgs()
+for y in x:
+    print(y.shape)

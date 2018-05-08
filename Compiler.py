@@ -1,6 +1,5 @@
-import numpy as np
 import conf
-import EyerissF
+from IOCompression import *
 
 
 class Compiler:
@@ -9,6 +8,9 @@ class Compiler:
         self.EyerissF = EyerissF
 
     def input(self, Picture, FilterWeight, PictureNum, FilterNum):
+
+        Picture, FilterWeight = InputDecompress(Picture, FilterWeight)
+
         self.Picture = Picture
         self.FilterWeight = FilterWeight
         self.PictureNum = PictureNum
@@ -20,6 +22,13 @@ class Compiler:
 
     def __SetPhysicalMapping__(self, mapping):
         self.mapping = mapping
+
+    def __SetReturnImgs__(self, ReturnImgs):
+        self.ReturnImgs = ReturnImgs
+
+    def GetReturnImgs(self):
+        r = OutputCompress(self.ReturnImgs)
+        return r
 
     def Con2LogicalMapping(self):
 
@@ -37,13 +46,12 @@ class Compiler:
 
         FilterWeight = self.FilterWeight
 
-
-        if self.PictureNum==1:  #一个图片多个卷积核
+        if self.PictureNum == 1:  # 一个图片多个卷积核
             Picture = self.Picture[0]
             FilterWeight = self.FilterWeight
 
 
-        elif self.FilterNum==1: # 一个卷积核，多个图片
+        elif self.FilterNum == 1:  # 一个卷积核，多个图片
             Picture = self.Picture
             FilterWeight = self.FilterWeight[0]
 
@@ -62,18 +70,18 @@ class Compiler:
         else:
             t.append(P)
 
-
         self.__SetPhysicalMapping__(t)
 
     def Conv2d(self):
 
         t = []
         map = self.mapping
+
         for x in map:
 
-            if self.FilterNum==1:
+            if self.FilterNum == 1:
                 w = self.EyerissF.Conv2d(x, self.FilterWeight[0], self.PictureNum, self.FilterNum)
-            elif self.PictureNum==1:
+            elif self.PictureNum == 1:
                 w = self.EyerissF.Conv2d(x, self.FilterWeight, self.PictureNum, self.FilterNum)
 
             t.append(w)
@@ -85,10 +93,12 @@ class Compiler:
         Psum = self.TempPsum
 
         if self.PictureNum == 1:
-            return self.__ReverseFmapReuse__(Psum, self.FilterNum)
+            # return self.__ReverseFmapReuse__(Psum, self.FilterNum)
+            self.__ReverseFmapReuse__(Psum, self.FilterNum)
 
         elif self.FilterNum == 1:
-            return self.__ReverseFilterReuse__(Psum, self.PictureNum)
+            # return self.__ReverseFilterReuse__(Psum, self.PictureNum)
+            self.__ReverseFilterReuse__(Psum, self.PictureNum)
 
     def __FmapReuse__(self, Pictures, FilterWeights):
 
@@ -164,10 +174,14 @@ class Compiler:
                 l.append(np.transpose(np.array(SubMap[y][:, x])[np.newaxis]))
             m.append(np.hstack(l))
             l = []
-        return m
+
+        # return m
+        self.__SetReturnImgs__(np.array(m))
 
     def __ReverseFilterReuse__(self, Psum, PsumNum):
-        return np.hsplit(Psum, PsumNum)
+
+        # return np.hsplit(Psum, PsumNum)
+        self.__SetReturnImgs__(np.hsplit(Psum, PsumNum))
 
 
 if __name__ == "__main__":

@@ -48,9 +48,37 @@ def Decompress(NpArray):
         else:  # NpArray[interr+2] != 0 && NpArray[interr+1] != 0
             DecomedNpArray.append(NpArray[interr + 2])
 
-    DecomedNpArray = np.array(DecomedNpArray,dtype=int)
+    DecomedNpArray = np.array(DecomedNpArray, dtype=int)
     DecomedNpArray = DecomedNpArray.reshape(Row, Column)
     return DecomedNpArray
+
+
+# 只有原始数据需要此处理
+def InputCompress(pic, flt):
+    for x in range(len(pic)):
+        pic[x] = Compress(pic[x])
+    for x in range(len(flt)):
+        flt[x] = Compress(flt[x])
+
+    return pic, flt
+
+
+def InputDecompress(pic, flt):
+    for x in range(len(pic)):
+        pic[x] = Decompress(pic[x])
+    for x in range(len(flt)):
+        flt[x] = Decompress(flt[x])
+
+    return pic, flt
+
+
+def OutputCompress(output):
+    r = list()
+    for x in range(0, len(output)):
+        print(Compress(output[x]))
+        r.append(Compress(output[x]))
+
+    return r
 
 
 if __name__ == "__main__":
