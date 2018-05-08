@@ -13,11 +13,13 @@ class EyerissF:
         self.__InitPEs__()
 
     def Conv2d(self, Picture, FilterWeight,ImageNum,FilterNum):
+
         PictureColumnLength, FilterWeightColumnLength = self.__DataDeliver__(Picture, FilterWeight,ImageNum,FilterNum)
         self.__run__()
         ConvedArray = self.__PsumTransport__(PictureColumnLength, FilterWeightColumnLength)
         ReluedConvedArray = Relu(ConvedArray)
         self.__SetALLPEsState__(conf.ClockGate)
+
         return ReluedConvedArray
 
     def __InitPEs__(self, PEsWidth=conf.EyerissWidth, PEsHeight=conf.EyerissHeight):
@@ -53,6 +55,11 @@ class EyerissF:
                 except:
                     pass
 
+    def __SetALLPEImgNumAndFltNum__(self, ImageNum, FilterNum):
+        for ColumnELement in range(0, EyerissF.EyerissHeight):
+            for RowElement in range(0, EyerissF.EyerissWidth):
+                self.PEArray[ColumnELement][RowElement].SetPEImgAndFlt(ImageNum, FilterNum)
+
     def __DataDeliver__(self, Picture, FilterWeight,ImageNum,FilterNum):
         # put the pic and filter row data into PEArray
 
@@ -66,7 +73,7 @@ class EyerissF:
         PictureColumnLength = len(Picture)
         FilterWeightColumnLength = len(FilterWeight)
 
-        self.__SetPEConf__(ImageNum,FilterNum)
+        self.__SetALLPEImgNumAndFltNum__(ImageNum, FilterNum)
         self.__SetPEsRunningState__(PictureColumnLength, FilterWeightColumnLength)
 
         # filterWeight 从左到右
@@ -91,8 +98,6 @@ class EyerissF:
         return PictureColumnLength, FilterWeightColumnLength
 
     def __run__(self):
-
-
         #整个系统开始计算
 
         for x in range(0, conf.EyerissHeight):
@@ -185,51 +190,5 @@ class EyerissF:
         print("一共有", c, "个PE正在运行")
         print(np.array(xx))
 
-    def __SetPEConf__(self,ImageNum,FilterNum):
-        for ColumnELement in range(0, EyerissF.EyerissHeight):
-            for RowElement in range(0, EyerissF.EyerissWidth):
-                self.PEArray[ColumnELement][RowElement].SetPEConf(ImageNum,FilterNum)
-
-
 if __name__ == '__main__':
-
-    Pic1 = np.random.randint(-5,6,(5,5))
-    Pic2 = np.random.randint(-9,2, (3,3))
-
-    print("图片为 :")
-
-    print(Pic1)
-    print("卷积核为 :")
-    print(Pic2)
-
-    print("图片大小 :",Pic1.shape)
-    print("卷积核大小 :",Pic2.shape)
-
-
-    e = EyerissF()
-    e.InitPEs()
-
-    a,b=e.__DataDeliver__(Pic1, Pic2)
-
-    e.__ShowStates__()
-    e.__run__()
-    x=e.__PsumTransport__(a,b)
-
-    x=Relu(x)
-
-    print("Relu后的输出矩阵 :")
-    print(x)
-
-    x,r=Compress(x,1)
-    print('压缩 :')
-    print(x)
-    print('压缩率 :', r)
-
-    x=Decompress(x)
-    print('解压缩 :')
-    print(x)
-
-
-
-
-
+    ...

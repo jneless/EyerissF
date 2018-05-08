@@ -19,6 +19,13 @@ class PE:
     def SetImageRow(self, ImageRow):
         self.ImageRow = ImageRow
 
+    def SetPEImgAndFlt(self, ImageNum, FilterNum):
+        self.ImageNum=ImageNum
+        self.FilterNum=FilterNum
+
+    def __SetPsum__(self, Psum):
+        self.Psum=Psum
+
     def __Conv1d__(self, ImageRow, FilterWeight):
         result = list()
         for x in range(0, len(ImageRow) - 1 + len(FilterWeight)):
@@ -49,7 +56,8 @@ class PE:
             # 核为1 ， filter重用
             if FilterNum==1:
 
-                # 分割图为原始的小型图
+                # 水平分割为原始图的每一行
+
                 pics=np.hsplit(ImageRow,ImageNum)
 
                 # 遍历，卷积
@@ -95,19 +103,10 @@ class PE:
         #TODO 加入多channel的情况
 
     def CountPsum(self):
-
         if self.PEState == conf.ClockGate:
-            self.Psum = conf.EmptyPsum
+            self.__SetPsum__(conf.EmptyPsum)
         elif self.PEState == conf.Running:
-            # self.Psum = self.__Conv1d__(self.ImageRow,self.FilterWeight)
-
-            self.Psum = self.__Conv__()
-
-        return self.Psum
-
-    def SetPEConf(self,ImageNum,FilterNum):
-        self.ImageNum=ImageNum
-        self.FilterNum=FilterNum
+            self.__SetPsum__(self.__Conv__())
 
 if __name__ == '__main__':
 
@@ -115,8 +114,11 @@ if __name__ == '__main__':
     p.SetPEState(conf.Running)
 
     img=np.array([1,1,1,1])
-    flt = np.array([1, 2,1,2])
+    flt = np.array([1,1])
 
-    p.SetPEConf(1,2)
-    print(p.__Conv__(img,flt))
+    p.SetPEImgAndFlt(2, 1)
+    p.SetImageRow(img)
+    p.SetFilterWeight(flt)
+
+    print(p.__Conv__())
 

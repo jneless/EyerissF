@@ -47,7 +47,7 @@ bb=np.vstack(t)
 print("卷积后整体尺寸 :",bb.shape)
 
 
-x=cp.ReverseFmapReuse(bb,6)
+x=cp.__ReverseFmapReuse__(bb, 6)
 
 n=0
 for y in x :
@@ -133,7 +133,7 @@ bb=np.vstack(t)
 
 print("卷积后整体尺寸 :",bb.shape)
 
-x=cp.ReverseFmapReuse(bb,16)
+x=cp.__ReverseFmapReuse__(bb, 16)
 
 
 
@@ -177,3 +177,4 @@ print("线性空间向量为：",arr,"(测试结构filter参数全为0)")
 s2=time.time()
 
 print("运行用时:",s2-s)
+
