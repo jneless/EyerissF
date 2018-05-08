@@ -2,7 +2,17 @@ import numpy as np
 
 
 def Compress(NpArray, RateNeed=0):
-    Row, Column = NpArray.shape
+
+    if NpArray.ndim==1:
+        Row = NpArray.shape
+        Column = 1
+
+    else :
+        Row, Column = NpArray.shape
+
+
+
+
     ComedNpArray = np.array([Row, Column], dtype=int)
 
     # NpArray=NpArray.flatten()
@@ -54,13 +64,19 @@ def Decompress(NpArray):
 
 
 # 只有原始数据需要此处理
-def InputCompress(pic, flt):
+
+def InputCompress(pic):
     for x in range(len(pic)):
         pic[x] = Compress(pic[x])
-    for x in range(len(flt)):
-        flt[x] = Compress(flt[x])
 
-    return pic, flt
+    return pic
+
+
+def DecompressArray(pic):
+    for x in range(len(pic)):
+        pic[x] = Decompress(pic[x])
+
+    return pic
 
 
 def InputDecompress(pic, flt):
@@ -75,8 +91,12 @@ def InputDecompress(pic, flt):
 def OutputCompress(output):
     r = list()
     for x in range(0, len(output)):
-        print(Compress(output[x]))
-        r.append(Compress(output[x]))
+
+        # print()
+        # r.append(Compress(output[x]))
+
+        t=Compress(np.array(output[x] / 255, dtype=int))
+        r.append(t)
 
     return r
 

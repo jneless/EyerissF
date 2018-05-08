@@ -1,4 +1,18 @@
 import numpy as np
+from IOCompression import *
+
+def Pooling(PicArray):
+
+    #传入的数组，每一维是压缩过的图片
+    length=len(PicArray)
+    l=[]
+    for x in range(length):
+        w=Decompress(PicArray[x])
+        w=MAXPooling(w)
+        w=Compress(w)
+        l.append(w)
+    return l
+
 
 
 def MAXPooling(Array, ksize=2):
