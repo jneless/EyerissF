@@ -2,16 +2,12 @@ import numpy as np
 
 
 def Compress(NpArray, RateNeed=0):
-
-    if NpArray.ndim==1:
+    if NpArray.ndim == 1:
         Row = NpArray.shape
         Column = 1
 
-    else :
+    else:
         Row, Column = NpArray.shape
-
-
-
 
     ComedNpArray = np.array([Row, Column], dtype=int)
 
@@ -91,11 +87,10 @@ def InputDecompress(pic, flt):
 def OutputCompress(output):
     r = list()
     for x in range(0, len(output)):
-
         # print()
         # r.append(Compress(output[x]))
 
-        t=Compress(np.array(output[x] / 255, dtype=int))
+        t = Compress(np.array(output[x] / 255, dtype=int))
         r.append(t)
 
     return r

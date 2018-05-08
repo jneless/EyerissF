@@ -1,6 +1,7 @@
 import conf
 from IOCompression import *
 
+
 class Compiler:
 
     def __init__(self, EyerissF):

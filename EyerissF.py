@@ -4,6 +4,7 @@ from PE import PE
 from Activiation import Relu
 from IOCompression import *
 
+
 class EyerissF:
     GlobalBuffer = conf.SRAMSize
     EyerissWidth = conf.EyerissWidth
@@ -12,9 +13,9 @@ class EyerissF:
     def __init__(self):
         self.__InitPEs__()
 
-    def Conv2d(self, Picture, FilterWeight,ImageNum,FilterNum):
+    def Conv2d(self, Picture, FilterWeight, ImageNum, FilterNum):
 
-        PictureColumnLength, FilterWeightColumnLength = self.__DataDeliver__(Picture, FilterWeight,ImageNum,FilterNum)
+        PictureColumnLength, FilterWeightColumnLength = self.__DataDeliver__(Picture, FilterWeight, ImageNum, FilterNum)
         self.__run__()
         ConvedArray = self.__PsumTransport__(PictureColumnLength, FilterWeightColumnLength)
         ReluedConvedArray = Relu(ConvedArray)
@@ -45,7 +46,7 @@ class EyerissF:
         # 卷积核行数必须小于Eyeriss高度
         assert FilterWeightColumnLength <= EyerissF.EyerissHeight
 
-        #图片行数必须小于 Eyeriss长宽只和-1
+        # 图片行数必须小于 Eyeriss长宽只和-1
         assert PictureColumnLength <= EyerissF.EyerissHeight + EyerissF.EyerissWidth - 1
 
         for ColumnELement in range(0, FilterWeightColumnLength):
@@ -60,7 +61,7 @@ class EyerissF:
             for RowElement in range(0, EyerissF.EyerissWidth):
                 self.PEArray[ColumnELement][RowElement].SetPEImgAndFlt(ImageNum, FilterNum)
 
-    def __DataDeliver__(self, Picture, FilterWeight,ImageNum,FilterNum):
+    def __DataDeliver__(self, Picture, FilterWeight, ImageNum, FilterNum):
         # put the pic and filter row data into PEArray
 
         # Eyeriss越界检查
@@ -68,7 +69,7 @@ class EyerissF:
         assert len(FilterWeight) <= self.EyerissHeight
 
         # 图片的行数不能超过 卷积核行数 + Eyeriss宽度（14） -1
-        assert len(Picture)  <= len(FilterWeight) + self.EyerissWidth -1
+        assert len(Picture) <= len(FilterWeight) + self.EyerissWidth - 1
 
         PictureColumnLength = len(Picture)
         FilterWeightColumnLength = len(FilterWeight)
@@ -98,7 +99,7 @@ class EyerissF:
         return PictureColumnLength, FilterWeightColumnLength
 
     def __run__(self):
-        #整个系统开始计算
+        # 整个系统开始计算
 
         for x in range(0, conf.EyerissHeight):
             for y in range(0, conf.EyerissWidth):
@@ -118,7 +119,7 @@ class EyerissF:
                 line.append(self.PEArray[ColumnElement][RowElement].Psum)
 
             # 将list中的Psum做和，得到一行卷积值，保存到r中
-            result.append(np.sum(line, axis=0,dtype=int))
+            result.append(np.sum(line, axis=0, dtype=int))
 
         # 将r中全部的卷积值组合成一个矩阵，并返回
         if result == []:
@@ -126,8 +127,8 @@ class EyerissF:
 
         return np.vstack(result)
 
-    def __ShowPEState__(self,x,y):
-        print("PE is : ",x,",",y)
+    def __ShowPEState__(self, x, y):
+        print("PE is : ", x, ",", y)
 
         if self.PEArray[x][y].PEState == conf.Running:
             print("PEState : Running")
@@ -135,16 +136,16 @@ class EyerissF:
         else:
             print("PEState : ClockGate")
 
-        print("FilterWeight :",self.PEArray[x][y].FilterWeight)
-        print("ImageRow :",self.PEArray[x][y].ImageRow)
+        print("FilterWeight :", self.PEArray[x][y].FilterWeight)
+        print("ImageRow :", self.PEArray[x][y].ImageRow)
 
     def __ShowAllPEState__(self):
 
         xx = list()
         yy = list()
         for x in range(conf.EyerissHeight):
-            for y in  range(conf.EyerissWidth):
-                self.__ShowPEState__(x,y)
+            for y in range(conf.EyerissWidth):
+                self.__ShowPEState__(x, y)
                 if self.PEArray[x][y].PEState == conf.Running:
                     yy.append(1)
                 else:
@@ -156,21 +157,21 @@ class EyerissF:
 
     def __ShowRunningPEState__(self):
 
-        c=0
-        xx=list()
-        yy=list()
+        c = 0
+        xx = list()
+        yy = list()
         for x in range(conf.EyerissHeight):
-            for y in  range(conf.EyerissWidth):
+            for y in range(conf.EyerissWidth):
 
                 if self.PEArray[x][y].PEState == conf.Running:
-                    self.__ShowPEState__(x,y)
-                    c=c+1
+                    self.__ShowPEState__(x, y)
+                    c = c + 1
                     yy.append(1)
                 else:
                     yy.append(0)
             xx.append(yy)
-            yy=[]
-        print("一共有",c,"个PE正在运行")
+            yy = []
+        print("一共有", c, "个PE正在运行")
         print(np.array(xx))
 
     def __ShowStates__(self):
@@ -189,6 +190,7 @@ class EyerissF:
             yy = []
         print("一共有", c, "个PE正在运行")
         print(np.array(xx))
+
 
 if __name__ == '__main__':
     ...

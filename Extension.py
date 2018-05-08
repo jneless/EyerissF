@@ -2,16 +2,18 @@ import numpy as np
 import matplotlib.pyplot as plt
 from IOCompression import *
 
+
 def NumpyAddExtension(list):
-    r=np.zeros(list[0].shape,dtype=int)
+    r = np.zeros(list[0].shape, dtype=int)
 
     for x in range(len(list)):
-        r=r+list[x]
+        r = r + list[x]
 
     return r
 
-def PicSave(pic,name):
-    if len(pic)==1:
+
+def PicSave(pic, name):
+    if len(pic) == 1:
 
         fig0, ax0 = plt.subplots(nrows=1, ncols=1)
         ax0.imshow(pic[0]).set_cmap("gray")
@@ -21,7 +23,7 @@ def PicSave(pic,name):
         plt.savefig(name, bbox_inches="tight")
         plt.close(fig0)
 
-    elif len(pic)==6:
+    elif len(pic) == 6:
 
         fig1, ax1 = plt.subplots(nrows=3, ncols=2)
         ax1[0, 0].imshow(Decompress(pic[0])).set_cmap("gray")
@@ -57,7 +59,7 @@ def PicSave(pic,name):
         plt.savefig(name, bbox_inches="tight")
         plt.close(fig1)
 
-    elif len(pic)==16:
+    elif len(pic) == 16:
 
         fig1, ax1 = plt.subplots(nrows=4, ncols=4)
         ax1[0, 0].imshow(Decompress(pic[0])).set_cmap("gray")
