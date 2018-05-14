@@ -90,7 +90,13 @@ def OutputCompress(output):
         # print()
         # r.append(Compress(output[x]))
 
-        t = Compress(np.array(output[x] / 255, dtype=int))
+        if np.average(output) > 255 :
+
+
+            t = Compress(np.array(output[x] / 255, dtype=int))
+        else:
+            t = Compress(np.array(output[x], dtype=int))
+
         r.append(t)
 
     return r
