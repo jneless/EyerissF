@@ -2,7 +2,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 from IOCompression import *
 
-
 def NumpyAddExtension(list):
     r = np.zeros(list[0].shape, dtype=int)
 

@@ -2,6 +2,8 @@ import numpy as np
 import conf
 from PE import PE
 from Activiation import Relu
+from IOCompression import *
+
 
 class EyerissF:
     GlobalBuffer = conf.SRAMSize
@@ -11,9 +13,9 @@ class EyerissF:
     def __init__(self):
         self.__InitPEs__()
 
-    def Conv2d(self, Picture, FilterWeight, ImageNum, FilterNum):
+    def Conv2d(self, Picture, FilterWeight, PictureNum, FilterWeightNum):
 
-        PictureColumnLength, FilterWeightColumnLength = self.__DataDeliver__(Picture, FilterWeight, ImageNum, FilterNum)
+        PictureColumnLength, FilterWeightColumnLength = self.__DataDeliver__(Picture, FilterWeight, PictureNum, FilterWeightNum)
         self.__run__()
         ConvedArray = self.__PsumTransport__(PictureColumnLength, FilterWeightColumnLength)
         ReluedConvedArray = Relu(ConvedArray)
