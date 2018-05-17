@@ -8,9 +8,9 @@ import Activiation
 
 class Hive():
 
-    def __init__(self, EyerissF, Operation="manual"):
+    def __init__(self, EyerissF, mode="auto"):
+        self.mode=mode
         self.EyerissF = EyerissF
-
 
     def input(self, Pictures, FilterWeights, PictureNum, FilterWeightNum):
 
@@ -86,17 +86,27 @@ class Hive():
         else:
             return IO2.Decompress(NpArray)
 
-    def Conv2d(self):
-        t = []
-        map = self.mapping
+    def Conv2d(self, Pictures=0, FilterWeights=0, PictureNum=0, FilterWeightNum=0):
 
-        # for x in map:
-        #     w = self.EyerissF.Conv2d(x, self.FilterWeight, self.PictureNum, self.FilterWeightNum)
-        #     t.append(w)
+        if self.mode=="auto":
 
-        t = [self.EyerissF.Conv2d(x, self.FilterWeight, self.PictureNum, self.FilterWeightNum) for x in map]
+            # auto mode should compress data inside
+            Pictures=self.Compress(Pictures)
+            FilterWeights=self.Compress(FilterWeights)
 
-        self.TempPsum = np.vstack(t)
+            self.input(Pictures, FilterWeights, PictureNum, FilterWeightNum)
+            self.Conv2LogicalMapping()
+            self.Conv2PhysicalMapping()
+            self.mode="manuel"
+            self.Conv2d(0,0,0,0)
+            self.mode="auto"
+            hive.Reverse()
+            return hive.Output()
+
+        else:
+            map = self.mapping
+            t = [self.EyerissF.Conv2d(x, self.FilterWeight, self.PictureNum, self.FilterWeightNum) for x in map]
+            self.TempPsum = np.vstack(t)
 
     def __SetPicAndFlt__(self, Picture, FilterWeight):
         self.Picture = Picture
@@ -179,44 +189,50 @@ class Hive():
 if __name__ == "__main__":
     ef = EF()
     hive = Hive(ef)
-
     pics = [np.ones((4, 4), dtype=int)]
     flts = [np.ones((2, 2), dtype=int), np.ones((2, 2), dtype=int)]
+    print(hive.Conv2d(pics,flts,1,2))
 
-    pics=hive.Compress(pics)
-    flts=hive.Compress(flts)
-
-    hive.input(pics, flts, 1, 2)
-    hive.Conv2LogicalMapping()
-    hive.Conv2PhysicalMapping()
-    hive.Conv2d()
-    hive.Reverse()
-
-
-    hive.Output()
-
-    pics = [np.ones((3, 3), dtype=int), np.ones((3, 3), dtype=int)]
-    flts = [np.ones((2, 2), dtype=int)]
-
-    pics = hive.Compress(pics)
-    flts = hive.Compress(flts)
-
-    hive.input(pics, flts, 2, 1)
-    hive.Conv2LogicalMapping()
-    hive.Conv2PhysicalMapping()
-    hive.Conv2d()
-    hive.Reverse()
-    z=hive.Output()
-    print(z)
-
-    flts = [np.ones((2, 2), dtype=int)]
-
-    flts = hive.Compress(flts)
-
-    hive.input(z, flts, 2, 1)
-    hive.Conv2LogicalMapping()
-    hive.Conv2PhysicalMapping()
-    hive.Conv2d()
-    hive.Reverse()
-    z = hive.Output()
-    print(z)
+    # ef = EF()
+    # hive = Hive(ef,mode="manuel")
+    #
+    # pics = [np.ones((4, 4), dtype=int)]
+    # flts = [np.ones((2, 2), dtype=int), np.ones((2, 2), dtype=int)]
+    #
+    # pics=hive.Compress(pics)
+    # flts=hive.Compress(flts)
+    #
+    # hive.input(pics, flts, 1, 2)
+    # hive.Conv2LogicalMapping()
+    # hive.Conv2PhysicalMapping()
+    # hive.Conv2d()
+    # hive.Reverse()
+    #
+    #
+    # hive.Output()
+    #
+    # pics = [np.ones((3, 3), dtype=int), np.ones((3, 3), dtype=int)]
+    # flts = [np.ones((2, 2), dtype=int)]
+    #
+    # pics = hive.Compress(pics)
+    # flts = hive.Compress(flts)
+    #
+    # hive.input(pics, flts, 2, 1)
+    # hive.Conv2LogicalMapping()
+    # hive.Conv2PhysicalMapping()
+    # hive.Conv2d()
+    # hive.Reverse()
+    # z=hive.Output()
+    # print(z)
+    #
+    # flts = [np.ones((2, 2), dtype=int)]
+    #
+    # flts = hive.Compress(flts)
+    #
+    # hive.input(z, flts, 2, 1)
+    # hive.Conv2LogicalMapping()
+    # hive.Conv2PhysicalMapping()
+    # hive.Conv2d()
+    # hive.Reverse()
+    # z = hive.Output()
+    # print(z)
