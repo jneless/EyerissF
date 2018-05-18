@@ -1,16 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d5c21494-bc37-4005-920f-b83ba56ed4c7" name="Default" comment="Lenet5 Hive finish">
+    <list default="true" id="d5c21494-bc37-4005-920f-b83ba56ed4c7" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/Compiler.py" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Extension.py" afterPath="$PROJECT_DIR$/Extension.py" />
-      <change beforePath="$PROJECT_DIR$/Eyeriss.py" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Hive.py" afterPath="$PROJECT_DIR$/Hive.py" />
-      <change beforePath="$PROJECT_DIR$/IOCompression.py" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Lenet5_Hive.py" afterPath="$PROJECT_DIR$/Lenet5_Hive.py" />
-      <change beforePath="$PROJECT_DIR$/Test.py" afterPath="$PROJECT_DIR$/Test.py" />
-      <change beforePath="$PROJECT_DIR$/lenet5_2.py" afterPath="" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -70,8 +62,8 @@
       <file leaf-file-name="Test.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Test.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="384">
-              <caret line="16" column="0" lean-forward="true" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
+            <state relative-caret-position="408">
+              <caret line="17" column="28" lean-forward="true" selection-start-line="17" selection-start-column="28" selection-end-line="17" selection-end-column="28" />
               <folding>
                 <element signature="e#0#21#0" expanded="true" />
               </folding>
@@ -363,20 +355,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1522674166254</updated>
-    </task>
-    <task id="LOCAL-00013" summary="update sigmoid">
-      <created>1523113396014</created>
-      <option name="number" value="00013" />
-      <option name="presentableId" value="LOCAL-00013" />
-      <option name="project" value="LOCAL" />
-      <updated>1523113396014</updated>
-    </task>
-    <task id="LOCAL-00014" summary="waiting for tranform Psum">
-      <created>1523125023526</created>
-      <option name="number" value="00014" />
-      <option name="presentableId" value="LOCAL-00014" />
-      <option name="project" value="LOCAL" />
-      <updated>1523125023526</updated>
     </task>
     <task id="LOCAL-00015" summary="waiting for tranform Psum">
       <created>1523284608209</created>
@@ -707,7 +685,21 @@
       <option name="project" value="LOCAL" />
       <updated>1526629096195</updated>
     </task>
-    <option name="localTasksCounter" value="62" />
+    <task id="LOCAL-00062" summary="delete IOCompression.py">
+      <created>1526649817984</created>
+      <option name="number" value="00062" />
+      <option name="presentableId" value="LOCAL-00062" />
+      <option name="project" value="LOCAL" />
+      <updated>1526649817985</updated>
+    </task>
+    <task id="LOCAL-00063" summary="add jupyter notebook">
+      <created>1526650162964</created>
+      <option name="number" value="00063" />
+      <option name="presentableId" value="LOCAL-00063" />
+      <option name="project" value="LOCAL" />
+      <updated>1526650162964</updated>
+    </task>
+    <option name="localTasksCounter" value="64" />
     <servers />
   </component>
   <component name="TodoView" selected-index="4">
@@ -814,8 +806,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="waiting for tranform Psum" />
-    <MESSAGE value="In zhangjiakou" />
     <MESSAGE value="first usable edition with pic-filter-turn bug fixed" />
     <MESSAGE value="daily update" />
     <MESSAGE value="finish compress and decompress" />
@@ -839,7 +829,9 @@
     <MESSAGE value="auto conv finish" />
     <MESSAGE value="hive finish waiting for Number scale decline" />
     <MESSAGE value="Lenet5 Hive finish" />
-    <option name="LAST_COMMIT_MESSAGE" value="Lenet5 Hive finish" />
+    <MESSAGE value="delete IOCompression.py" />
+    <MESSAGE value="add jupyter notebook" />
+    <option name="LAST_COMMIT_MESSAGE" value="add jupyter notebook" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1140,8 +1132,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Test.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="384">
-          <caret line="16" column="0" lean-forward="true" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
+        <state relative-caret-position="408">
+          <caret line="17" column="28" lean-forward="true" selection-start-line="17" selection-start-column="28" selection-end-line="17" selection-end-column="28" />
           <folding>
             <element signature="e#0#21#0" expanded="true" />
           </folding>
