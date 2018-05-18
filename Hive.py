@@ -4,7 +4,7 @@ from EyerissF import EyerissF as EF
 import IO2
 import Pooling
 import Activiation
-
+import Extension
 
 class Hive():
 
@@ -189,9 +189,37 @@ class Hive():
 if __name__ == "__main__":
     ef = EF()
     hive = Hive(ef)
-    pics = [np.ones((4, 4), dtype=int)]
-    flts = [np.ones((2, 2), dtype=int), np.ones((2, 2), dtype=int)]
-    print(hive.Conv2d(pics,flts,1,2))
+    pics = [np.ones((32, 32), dtype=int)]
+    flts = [np.load("ConvLayerFilter/ConvLayer1Filter"+str(x)+".npy") for x in range(1,7)]
+
+
+    pics=hive.Conv2d(pics,flts,1,6)
+
+    pics=hive.Pooling(hive.Decompress(pics))
+
+    r = [hive.Conv2d(pics, [np.load("ConvLayerFilter/ConvLayer2Filter" + str(x) + ".npy")],6, 1) for x in range(1, 17)]
+    pics = [Extension.NumpyAddExtension(hive.Decompress(r[x])) for x in range(16)]
+
+    pics=hive.Pooling(pics)
+
+    vector=np.array(pics)
+    vector=vector.flatten()
+
+    vector = vector.dot(np.load('FullConnectLayer/FullConnectLayer1.npy'))
+
+    vector = vector.dot(np.load('FullConnectLayer/FullConnectLayer2.npy'))
+
+    vector = vector.dot(np.load('FullConnectLayer/FullConnectLayer3.npy'))
+
+    print(vector)
+
+
+
+
+
+
+
+
 
     # ef = EF()
     # hive = Hive(ef,mode="manuel")

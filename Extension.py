@@ -4,10 +4,8 @@ from IOCompression import *
 
 def NumpyAddExtension(list):
     r = np.zeros(list[0].shape, dtype=int)
-
     for x in range(len(list)):
         r = r + list[x]
-
     return r
 
 
