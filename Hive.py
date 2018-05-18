@@ -68,11 +68,11 @@ class Hive():
         else:
             return Activiation.Relu(array)
 
-    def Pooling(self, array):
+    def Pooling(self, array,activation=1):
         if type(array) == type(list()):
-            return Pooling.Pooling(array)
+            return Pooling.Pooling(array,activation)
         else:
-            return Pooling.MAXPooling(array)
+            return Pooling.MAXPooling(array,activation)
 
     def Compress(self, NpArray, RateNeed=0):
         if type(NpArray) == type(list()):
@@ -100,8 +100,8 @@ class Hive():
             self.mode="manuel"
             self.Conv2d(0,0,0,0)
             self.mode="auto"
-            hive.Reverse()
-            return hive.Output()
+            self.Reverse()
+            return self.Output()
 
         else:
             map = self.mapping
@@ -186,6 +186,11 @@ class Hive():
         return self.Compress(self.ReturnImgs)
 
 
+
+    def FullConnect(self,v1,v2,activation=1):
+        return np.array(np.dot(v1,v2)/activation,dtype=int)
+
+
 if __name__ == "__main__":
     ef = EF()
     hive = Hive(ef)
@@ -195,21 +200,19 @@ if __name__ == "__main__":
 
     pics=hive.Conv2d(pics,flts,1,6)
 
-    pics=hive.Pooling(hive.Decompress(pics))
+    pics=hive.Pooling(hive.Decompress(pics),3)
 
     r = [hive.Conv2d(pics, [np.load("ConvLayerFilter/ConvLayer2Filter" + str(x) + ".npy")],6, 1) for x in range(1, 17)]
     pics = [Extension.NumpyAddExtension(hive.Decompress(r[x])) for x in range(16)]
 
-    pics=hive.Pooling(pics)
+    pics=hive.Pooling(pics,3)
 
-    vector=np.array(pics)
-    vector=vector.flatten()
+    vector = hive.FullConnect(np.array(pics).flatten(),np.load('FullConnectLayer/FullConnectLayer1.npy'),255)
 
-    vector = vector.dot(np.load('FullConnectLayer/FullConnectLayer1.npy'))
+    vector = hive.FullConnect(vector, np.load('FullConnectLayer/FullConnectLayer2.npy'),255)
 
-    vector = vector.dot(np.load('FullConnectLayer/FullConnectLayer2.npy'))
+    vector = hive.FullConnect(vector, np.load('FullConnectLayer/FullConnectLayer3.npy'))
 
-    vector = vector.dot(np.load('FullConnectLayer/FullConnectLayer3.npy'))
 
     print(vector)
 

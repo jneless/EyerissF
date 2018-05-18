@@ -1,10 +1,10 @@
 import numpy as np
 
-def Pooling(array):
+def Pooling(array,activation):
     assert type(array) == type(list())
-    return [MAXPooling(x) for x in array]
+    return [MAXPooling(x,activation) for x in array]
 
-def MAXPooling(Array, ksize=2):
+def MAXPooling(Array,activation=1, ksize=2):
     assert len(Array) % ksize == 0
 
     V2list = np.vsplit(Array, len(Array) / ksize)
@@ -20,4 +20,4 @@ def MAXPooling(Array, ksize=2):
             HorizontalElements.append(y.max())
         VerticalElements.append(np.array(HorizontalElements))
 
-    return np.array(VerticalElements)
+    return np.array(np.array(VerticalElements)/activation,dtype=int)
