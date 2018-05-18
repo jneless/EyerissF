@@ -105,8 +105,8 @@ class Hive():
 
         else:
             map = self.mapping
-            t = [self.EyerissF.Conv2d(x, self.FilterWeight, self.PictureNum, self.FilterWeightNum) for x in map]
-            self.TempPsum = np.vstack(t)
+            self.t = [self.EyerissF.Conv2d(x, self.FilterWeight, self.PictureNum, self.FilterWeightNum) for x in map]
+            self.TempPsum = np.vstack(self.t)
 
     def __SetPicAndFlt__(self, Picture, FilterWeight):
         self.Picture = Picture
