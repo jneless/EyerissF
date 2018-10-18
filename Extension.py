@@ -1,16 +1,12 @@
-import numpy as np
 import matplotlib.pyplot as plt
-from IOCompression import *
+from IO2 import *
 
 
 def NumpyAddExtension(list):
     r = np.zeros(list[0].shape, dtype=int)
-
     for x in range(len(list)):
         r = r + list[x]
-
     return r
-
 
 def PicSave(pic, name):
     if len(pic) == 1:

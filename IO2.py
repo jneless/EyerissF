@@ -33,8 +33,8 @@ def Compress(NpArray, RateNeed=0):
         return ComedNpArray
     else:
         CompressRate = float(ComedNpArray.size) / (Row * Column)
-        return ComedNpArray, CompressRate
-
+        print("CompressRate is :",CompressRate)
+        return ComedNpArray
 
 def Decompress(NpArray):
     Length = NpArray.size - 2
@@ -58,59 +58,12 @@ def Decompress(NpArray):
     DecomedNpArray = DecomedNpArray.reshape(Row, Column)
     return DecomedNpArray
 
+def CompressArray(array):
+    assert type(array) == type(list())
+    return [Compress(x) for x in array]
 
-# 只有原始数据需要此处理
-
-def InputCompress(pic):
-    for x in range(len(pic)):
-        pic[x] = Compress(pic[x])
-
-    return pic
-
-
-def DecompressArray(pic):
-    for x in range(len(pic)):
-        pic[x] = Decompress(pic[x])
-
-    return pic
+def DecompressArray(array):
+    assert type(array) == type(list())
+    return [Decompress(x) for x in array]
 
 
-def InputDecompress(pic, flt):
-    for x in range(len(pic)):
-        pic[x] = Decompress(pic[x])
-    for x in range(len(flt)):
-        flt[x] = Decompress(flt[x])
-
-    return pic, flt
-
-
-def OutputCompress(output):
-    r = list()
-    for x in range(0, len(output)):
-        # print()
-        # r.append(Compress(output[x]))
-
-        if np.average(output) > 255 :
-
-
-            t = Compress(np.array(output[x] / 255, dtype=int))
-        else:
-            t = Compress(np.array(output[x], dtype=int))
-
-        r.append(t)
-
-    return r
-
-
-if __name__ == "__main__":
-    NpArray = np.array(
-        [[0, 0, 0, 1, 1, 1, 0, 0],
-         [1, 1, 0, 0, 0, 0, 0, 0],
-         [1, 1, 0, 0, 0, 0, 0, 0],
-         [1, 1, 0, 0, 0, 0, 0, 0]]
-    )
-    print("压缩前：\n", NpArray)
-    c = Compress(NpArray)
-    print("压缩后\n", c)
-    c = Decompress(c)
-    print("解压后\n", c)

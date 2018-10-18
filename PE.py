@@ -85,19 +85,6 @@ class PE:
                 result = np.reshape(result, (1, result.size))
                 return result
 
-                '''
-                多个filter是打乱之后传入
-                需要先变成正常形状，再卷积，再把卷积结果打乱传出
-                上层接受到以后，再把打乱的结果变成正常结果
-                
-                
-                示例输入[1,1,1,1],[1,2,1,2],1,2
-                返回 [2 4 2 4 2 4] 是 [2,2,2] [4,4,4]的合并
-                
-                '''
-
-        # TODO 加入多channel的情况
-
     def CountPsum(self):
         if self.PEState == conf.ClockGate:
             self.__SetPsum__(conf.EmptyPsum)

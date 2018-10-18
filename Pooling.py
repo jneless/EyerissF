@@ -1,20 +1,10 @@
 import numpy as np
-from IOCompression import *
 
+def Pooling(array,activation):
+    assert type(array) == type(list())
+    return [MAXPooling(x,activation) for x in array]
 
-def Pooling(PicArray):
-    # 传入的数组，每一维是压缩过的图片
-    length = len(PicArray)
-    l = []
-    for x in range(length):
-        w = Decompress(PicArray[x])
-        w = MAXPooling(w)
-        w = Compress(w)
-        l.append(w)
-    return l
-
-
-def MAXPooling(Array, ksize=2):
+def MAXPooling(Array,activation=1, ksize=2):
     assert len(Array) % ksize == 0
 
     V2list = np.vsplit(Array, len(Array) / ksize)
@@ -30,12 +20,4 @@ def MAXPooling(Array, ksize=2):
             HorizontalElements.append(y.max())
         VerticalElements.append(np.array(HorizontalElements))
 
-    return np.array(VerticalElements)
-
-
-if __name__ == '__main__':
-    a = np.array([[1, 2],
-                  [5, 6]
-                  ])
-
-    print(MAXPooling(a))
+    return np.array(np.array(VerticalElements)/activation,dtype=int)

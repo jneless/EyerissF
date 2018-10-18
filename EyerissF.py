@@ -2,8 +2,6 @@ import numpy as np
 import conf
 from PE import PE
 from Activiation import Relu
-from IOCompression import *
-
 
 class EyerissF:
     GlobalBuffer = conf.SRAMSize
