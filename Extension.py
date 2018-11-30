@@ -98,8 +98,6 @@ def PicSave(pic, name):
         ax1[1, 3].get_xaxis().set_ticks([])
         ax1[1, 3].get_yaxis().set_ticks([])
 
-        #
-
         ax1[2, 0].imshow(Decompress(pic[8])).set_cmap("gray")
         ax1[2, 0].set_title("Map9")
         ax1[2, 0].get_xaxis().set_ticks([])

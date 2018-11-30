@@ -1,21 +1,19 @@
 import numpy as np
 import conf
-from EyerissF import EyerissF as EF
 import IO2
 import Pooling
 import Activiation
-import Extension
 
 class Hive():
 
     def __init__(self, EyerissF, mode="auto"):
-        self.mode=mode
+        self.mode = mode
         self.EyerissF = EyerissF
 
     def input(self, Pictures, FilterWeights, PictureNum, FilterWeightNum):
 
         # check the state, input data must be compressed before
-        assert np.ndim(Pictures[0]) ==1
+        assert np.ndim(Pictures[0]) == 1
         assert np.ndim(FilterWeights[0]) == 1
 
         Pictures = self.Decompress(Pictures)
@@ -27,7 +25,6 @@ class Hive():
         self.FilterWeightNum = FilterWeightNum
 
     def Conv2LogicalMapping(self):
-
         Pictures = self.Pictures
         FilterWeights = self.FilterWeights
 
@@ -41,10 +38,8 @@ class Hive():
     def Conv2PhysicalMapping(self):
 
         FilterWeight = self.FilterWeight
-
         Picture = self.Picture
         FilterWeight = self.FilterWeight
-
         x = 0
         t = list()
         while conf.EyerissWidth * x + conf.EyerissWidth + len(FilterWeight) - 1 < len(FilterWeight) + len(Picture) - 1:
@@ -68,11 +63,11 @@ class Hive():
         else:
             return Activiation.Relu(array)
 
-    def Pooling(self, array,activation=1):
+    def Pooling(self, array, activation=1):
         if type(array) == type(list()):
-            return Pooling.Pooling(array,activation)
+            return Pooling.Pooling(array, activation)
         else:
-            return Pooling.MAXPooling(array,activation)
+            return Pooling.MAXPooling(array, activation)
 
     def Compress(self, NpArray, RateNeed=0):
         if type(NpArray) == type(list()):
@@ -87,19 +82,18 @@ class Hive():
             return IO2.Decompress(NpArray)
 
     def Conv2d(self, Pictures=0, FilterWeights=0, PictureNum=0, FilterWeightNum=0):
-
-        if self.mode=="auto":
+        if self.mode == "auto":
 
             # auto mode should compress data inside
-            Pictures=self.Compress(Pictures)
-            FilterWeights=self.Compress(FilterWeights)
+            Pictures = self.Compress(Pictures)
+            FilterWeights = self.Compress(FilterWeights)
 
             self.input(Pictures, FilterWeights, PictureNum, FilterWeightNum)
             self.Conv2LogicalMapping()
             self.Conv2PhysicalMapping()
-            self.mode="manuel"
-            self.Conv2d(0,0,0,0)
-            self.mode="auto"
+            self.mode = "manuel"
+            self.Conv2d(0, 0, 0, 0)
+            self.mode = "auto"
             self.Reverse()
             return self.Output()
 
@@ -133,9 +127,7 @@ class Hive():
         self.__SetPicAndFlt__(Pictures[0], FilterWeight)
 
     def __FilterReuse__(self, Pictures, FilterWeights):
-
         assert len(FilterWeights) == 1
-
         l = list()
         line = list()
         for y in range(0, len(Pictures[0])):
@@ -161,7 +153,6 @@ class Hive():
             self.__ReverseFilterReuse__(Psum, self.PictureNum)
 
     def __ReverseFmapReuse__(self, Psum, PsumNum):
-
         SubMap = np.hsplit(Psum, int(np.shape(Psum)[1] / PsumNum))
         l = []
         m = []
@@ -176,7 +167,6 @@ class Hive():
         self.__SetReturnImgs__(m)
 
     def __ReverseFilterReuse__(self, Psum, PsumNum):
-
         self.__SetReturnImgs__(list(np.hsplit(Psum, PsumNum)))
 
     def __SetReturnImgs__(self, ReturnImgs):
@@ -185,85 +175,5 @@ class Hive():
     def Output(self):
         return self.Compress(self.ReturnImgs)
 
-
-
-    def FullConnect(self,v1,v2,activation=1):
-        return np.array(np.dot(v1,v2)/activation,dtype=int)
-
-
-if __name__ == "__main__":
-    ef = EF()
-    hive = Hive(ef)
-    pics = [np.ones((32, 32), dtype=int)]
-    flts = [np.load("ConvLayerFilter/ConvLayer1Filter"+str(x)+".npy") for x in range(1,7)]
-
-
-    pics=hive.Conv2d(pics,flts,1,6)
-
-    pics=hive.Pooling(hive.Decompress(pics),3)
-
-    r = [hive.Conv2d(pics, [np.load("ConvLayerFilter/ConvLayer2Filter" + str(x) + ".npy")],6, 1) for x in range(1, 17)]
-    pics = [Extension.NumpyAddExtension(hive.Decompress(r[x])) for x in range(16)]
-
-    pics=hive.Pooling(pics,3)
-
-    vector = hive.FullConnect(np.array(pics).flatten(),np.load('FullConnectLayer/FullConnectLayer1.npy'),255)
-
-    vector = hive.FullConnect(vector, np.load('FullConnectLayer/FullConnectLayer2.npy'),255)
-
-    vector = hive.FullConnect(vector, np.load('FullConnectLayer/FullConnectLayer3.npy'))
-
-
-    print(vector)
-
-
-
-
-
-
-
-
-
-    # ef = EF()
-    # hive = Hive(ef,mode="manuel")
-    #
-    # pics = [np.ones((4, 4), dtype=int)]
-    # flts = [np.ones((2, 2), dtype=int), np.ones((2, 2), dtype=int)]
-    #
-    # pics=hive.Compress(pics)
-    # flts=hive.Compress(flts)
-    #
-    # hive.input(pics, flts, 1, 2)
-    # hive.Conv2LogicalMapping()
-    # hive.Conv2PhysicalMapping()
-    # hive.Conv2d()
-    # hive.Reverse()
-    #
-    #
-    # hive.Output()
-    #
-    # pics = [np.ones((3, 3), dtype=int), np.ones((3, 3), dtype=int)]
-    # flts = [np.ones((2, 2), dtype=int)]
-    #
-    # pics = hive.Compress(pics)
-    # flts = hive.Compress(flts)
-    #
-    # hive.input(pics, flts, 2, 1)
-    # hive.Conv2LogicalMapping()
-    # hive.Conv2PhysicalMapping()
-    # hive.Conv2d()
-    # hive.Reverse()
-    # z=hive.Output()
-    # print(z)
-    #
-    # flts = [np.ones((2, 2), dtype=int)]
-    #
-    # flts = hive.Compress(flts)
-    #
-    # hive.input(z, flts, 2, 1)
-    # hive.Conv2LogicalMapping()
-    # hive.Conv2PhysicalMapping()
-    # hive.Conv2d()
-    # hive.Reverse()
-    # z = hive.Output()
-    # print(z)
+    def FullConnect(self, v1, v2, activation=1):
+        return np.array(np.dot(v1, v2) / activation, dtype=int)

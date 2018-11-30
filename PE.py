@@ -37,37 +37,28 @@ class PE:
         return np.array(result)
 
     def __Conv__(self):
-
         ImageRow = self.ImageRow
         FilterWeight = self.FilterWeight
-
         ImageNum = self.ImageNum
         FilterNum = self.FilterNum
 
         l = list()
-
         if FilterNum == 1 and ImageNum == 1:
 
             # 图和核都为1 直接运行卷积
             return self.__Conv1d__(ImageRow, FilterWeight)
         else:
-
             # 核为1 ， filter重用
             if FilterNum == 1:
-
                 # 水平分割为原始图的每一行
-
                 pics = np.hsplit(ImageRow, ImageNum)
-
                 # 遍历，卷积
                 for x in pics:
                     # 卷积后的结果加入l中临时保存
                     l.append(self.__Conv1d__(x, FilterWeight))
-
                     # 将l中的结果组合成一个新的矩阵
                     # 横向组合
                     result = np.hstack(np.array(l))
-
                 # 返回结果
                 return result
 
@@ -90,17 +81,3 @@ class PE:
             self.__SetPsum__(conf.EmptyPsum)
         elif self.PEState == conf.Running:
             self.__SetPsum__(self.__Conv__())
-
-
-if __name__ == '__main__':
-    p = PE()
-    p.SetPEState(conf.Running)
-
-    img = np.array([1, 1, 1, 1])
-    flt = np.array([1, 1])
-
-    p.SetPEImgAndFlt(2, 1)
-    p.SetImageRow(img)
-    p.SetFilterWeight(flt)
-
-    print(p.__Conv__())

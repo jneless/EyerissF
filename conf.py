@@ -1,4 +1,3 @@
-
 # Global Buffer
 SRAMSize = 108
 

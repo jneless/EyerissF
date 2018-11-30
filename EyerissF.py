@@ -188,7 +188,3 @@ class EyerissF:
             yy = []
         print("一共有", c, "个PE正在运行")
         print(np.array(xx))
-
-
-if __name__ == '__main__':
-    ...
