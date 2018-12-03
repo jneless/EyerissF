@@ -78,28 +78,39 @@ Hive is aiming to tranfor 3-channel jpg pics to input Eyeriss supported stream a
 If u wanna use hive to create CNN, u should do following steps:
 
 1. init EyerissF simulator 
-`ef = EyerissF()`
+```python
+ef = EyerissF()
+```
 or
-`ef = EyerissF("manual")` 
-// TODO there is a spell bug here
-// new u should write 'manuel'
-`ef = EyerissF("manuel")` 
+
+```python
+ef = EyerissF("manual")
+```
+
 1. init Hive
-`hive = Hive(ef)`
+```python
+hive = Hive(ef)
+```
 
 Other funxs from Hive
 1. convolution ( Eyeriss Supported)
-`hive.conv2d(pics,filters,number of pics, number of filters)`
+```python
+hive.conv2d(pics,filters,number of pics, number of filters)
+```
 1. Pooling
-`hive.Pooling(pics)`
+```python
+hive.Pooling(pics)
+```
 1. FullConnect
-`hive.FullConnect(vector,vector2)`
+```python
+hive.FullConnect(vector,vector2)
+```
 
-##<font color=red> waiting to finish</font>
 
 ## contact me
 please Email jialinli@linkedin.com
 
 ## last updated
-2018 Dec 2nd
+2018 Dec 3nd
 
+## waiting to finish

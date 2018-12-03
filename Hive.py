@@ -91,7 +91,7 @@ class Hive():
             self.input(Pictures, FilterWeights, PictureNum, FilterWeightNum)
             self.Conv2LogicalMapping()
             self.Conv2PhysicalMapping()
-            self.mode = "manuel"
+            self.mode = "manual"
             self.Conv2d(0, 0, 0, 0)
             self.mode = "auto"
             self.Reverse()

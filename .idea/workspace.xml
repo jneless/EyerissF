@@ -2,13 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d5c21494-bc37-4005-920f-b83ba56ed4c7" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/Activiation.py" beforeDir="false" afterPath="$PROJECT_DIR$/Activiation.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Extension.py" beforeDir="false" afterPath="$PROJECT_DIR$/Extension.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EyerissF.py" beforeDir="false" afterPath="$PROJECT_DIR$/EyerissF.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Hive.py" beforeDir="false" afterPath="$PROJECT_DIR$/Hive.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/IO2.py" beforeDir="false" afterPath="$PROJECT_DIR$/IO2.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lenet5_Hive.py" beforeDir="false" afterPath="$PROJECT_DIR$/Lenet5_Hive.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/conf.py" beforeDir="false" afterPath="$PROJECT_DIR$/conf.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Lenet5_Hive_Manuel.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/Lenet5_Hive_Manuel.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/readme-pic/屏幕快照 2018-12-02 12.38.42.png" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -38,29 +34,22 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Hive.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Hive.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Hive.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="277">
-              <caret line="162" column="28" lean-forward="true" selection-start-line="162" selection-start-column="28" selection-end-line="162" selection-end-column="28" />
+            <state relative-caret-position="226">
+              <caret line="44" column="5" selection-start-line="44" selection-start-column="5" selection-end-line="44" selection-end-column="5" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
-                <element signature="e#3437#3500#0" />
-                <element signature="e#3565#4252#0" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name=".gitattributes" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/.gitattributes">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file leaf-file-name="Lenet5_Hive.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Lenet5_Hive.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Lenet5_Hive.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="216">
+            <state relative-caret-position="182">
               <caret line="9" column="41" selection-start-line="9" selection-start-column="41" selection-end-line="9" selection-end-column="41" />
               <folding>
                 <element signature="e#0#21#0" expanded="true" />
@@ -69,10 +58,19 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="Lenet5_Hive_Manuel.ipynb" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Lenet5_Hive_Manuel.ipynb">
+          <provider selected="true" editor-type-id="ipnb-editor">
+            <state>
+              <selected id="1" />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="EyerissF.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/EyerissF.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="840">
+            <state relative-caret-position="696">
               <caret line="174" selection-start-line="174" selection-end-line="174" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
@@ -95,16 +93,14 @@
       </file>
       <file leaf-file-name=".gitignore" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/.gitignore">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1500" />
-          </provider>
+          <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
       <file leaf-file-name="Activiation.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Activiation.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="168">
-              <caret line="7" lean-forward="true" selection-start-line="7" selection-end-line="7" />
+              <caret line="7" selection-start-line="7" selection-end-line="7" />
             </state>
           </provider>
         </entry>
@@ -122,7 +118,7 @@
         <entry file="file://$PROJECT_DIR$/conf.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="168">
-              <caret line="7" column="18" lean-forward="true" selection-start-line="7" selection-start-column="18" selection-end-line="7" selection-end-column="18" />
+              <caret line="7" column="18" selection-start-line="7" selection-start-column="18" selection-end-line="7" selection-end-column="18" />
             </state>
           </provider>
         </entry>
@@ -130,7 +126,7 @@
       <file leaf-file-name="Extension.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Extension.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="703">
+            <state relative-caret-position="3360">
               <caret line="141" column="23" selection-start-line="141" selection-start-column="23" selection-end-line="141" selection-end-column="23" />
               <folding>
                 <element signature="e#0#31#0" expanded="true" />
@@ -143,7 +139,7 @@
         <entry file="file://$PROJECT_DIR$/IO2.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="384">
-              <caret line="16" column="13" lean-forward="true" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="13" />
+              <caret line="16" column="13" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="13" />
             </state>
           </provider>
         </entry>
@@ -182,6 +178,7 @@
       <find>decompress</find>
       <find>compress</find>
       <find>Compress</find>
+      <find>manuel</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -218,9 +215,10 @@
         <option value="$PROJECT_DIR$/conf.py" />
         <option value="$PROJECT_DIR$/Extension.py" />
         <option value="$PROJECT_DIR$/EyerissF.py" />
-        <option value="$PROJECT_DIR$/Hive.py" />
         <option value="$PROJECT_DIR$/IO2.py" />
         <option value="$PROJECT_DIR$/Lenet5_Hive.py" />
+        <option value="$PROJECT_DIR$/Hive.py" />
+        <option value="$PROJECT_DIR$/Lenet5_Hive_Manuel.ipynb" />
       </list>
     </option>
   </component>
@@ -246,7 +244,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -258,6 +255,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -764,22 +762,22 @@
       <window_info anchor="bottom" id="TODO" order="6" weight="0.3278237" />
       <window_info anchor="bottom" id="Event Log" order="8" side_tool="true" weight="0.32786885" />
       <window_info anchor="right" x="0" y="0" width="410" height="777" id="Documentation" order="5" side_tool="true" visible="true" weight="0.14963707" />
-      <window_info anchor="bottom" id="Database Changes" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Database Changes" order="9" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="12" weight="0.6804408" />
       <window_info anchor="bottom" id="Python Console" order="9" weight="0.32967034" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.2629834" />
       <window_info anchor="bottom" id="Terminal" order="10" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.13679509" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.13847013" />
       <window_info anchor="bottom" id="Docker" order="11" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="3" />
       <window_info anchor="right" id="SciView" order="4" weight="0.12708333" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.33812153" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.2629834" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.33812153" />
       <window_info anchor="bottom" id="Messages" order="7" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
@@ -788,26 +786,26 @@
     <layout-to-restore>
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Docker" order="11" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" order="12" weight="0.6804408" />
-      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.17291667" />
-      <window_info anchor="right" id="SciView" order="5" weight="0.12708333" />
-      <window_info anchor="right" id="Commander" order="0" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" weight="0.3278237" />
-      <window_info id="Favorites" order="2" side_tool="true" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.4311295" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.32686982" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.17291667" />
       <window_info id="Structure" order="1" weight="0.25" />
+      <window_info anchor="right" id="Commander" order="0" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.3278237" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.4311295" />
+      <window_info anchor="bottom" id="Python Console" order="9" weight="0.32967034" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32686982" />
       <window_info anchor="right" x="0" y="0" width="430" height="782" id="Documentation" order="3" weight="0.15" />
       <window_info anchor="right" id="Database" order="4" />
+      <window_info anchor="bottom" id="Messages" order="7" />
       <window_info anchor="bottom" id="Terminal" order="10" />
       <window_info anchor="bottom" id="Event Log" order="8" side_tool="true" weight="0.32786885" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.33812153" />
+      <window_info anchor="bottom" id="Version Control" order="12" weight="0.6804408" />
+      <window_info anchor="right" id="SciView" order="5" weight="0.12708333" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Messages" order="7" />
-      <window_info anchor="bottom" id="Python Console" order="9" weight="0.32967034" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.33812153" />
+      <window_info id="Favorites" order="2" side_tool="true" />
     </layout-to-restore>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -893,13 +891,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file:///Library/Frameworks/Python.framework/Versions/3.6/lib/python3.6/site-packages/numpy/lib/shape_base.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1471">
-          <caret line="618" selection-start-line="618" selection-end-line="618" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file:///Library/Frameworks/Python.framework/Versions/3.6/lib/python3.6/site-packages/gensim/corpora/dictionary.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-344">
@@ -1040,27 +1031,25 @@
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1500" />
-      </provider>
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/Activiation.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="168">
-          <caret line="7" lean-forward="true" selection-start-line="7" selection-end-line="7" />
+          <caret line="7" selection-start-line="7" selection-end-line="7" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/conf.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="168">
-          <caret line="7" column="18" lean-forward="true" selection-start-line="7" selection-start-column="18" selection-end-line="7" selection-end-column="18" />
+          <caret line="7" column="18" selection-start-line="7" selection-start-column="18" selection-end-line="7" selection-end-column="18" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Extension.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="703">
+        <state relative-caret-position="3360">
           <caret line="141" column="23" selection-start-line="141" selection-start-column="23" selection-end-line="141" selection-end-column="23" />
           <folding>
             <element signature="e#0#31#0" expanded="true" />
@@ -1068,9 +1057,23 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/filterReset.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="936">
+          <caret line="39" column="41" selection-start-line="39" selection-start-column="41" selection-end-line="39" selection-end-column="41" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/IO2.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="384">
+          <caret line="16" column="13" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/EyerissF.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="840">
+        <state relative-caret-position="696">
           <caret line="174" selection-start-line="174" selection-end-line="174" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
@@ -1090,38 +1093,29 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/filterReset.py">
+    <entry file="file://$PROJECT_DIR$/Lenet5_Hive.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="936">
-          <caret line="39" column="41" selection-start-line="39" selection-start-column="41" selection-end-line="39" selection-end-column="41" />
+        <state relative-caret-position="182">
+          <caret line="9" column="41" selection-start-line="9" selection-start-column="41" selection-end-line="9" selection-end-column="41" />
+          <folding>
+            <element signature="e#0#21#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Lenet5_Hive_Manuel.ipynb">
+      <provider selected="true" editor-type-id="ipnb-editor">
+        <state>
+          <selected id="1" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Hive.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="277">
-          <caret line="162" column="28" lean-forward="true" selection-start-line="162" selection-start-column="28" selection-end-line="162" selection-end-column="28" />
+        <state relative-caret-position="226">
+          <caret line="44" column="5" selection-start-line="44" selection-start-column="5" selection-end-line="44" selection-end-column="5" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
-            <element signature="e#3437#3500#0" />
-            <element signature="e#3565#4252#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/IO2.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="384">
-          <caret line="16" column="13" lean-forward="true" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Lenet5_Hive.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="216">
-          <caret line="9" column="41" selection-start-line="9" selection-start-column="41" selection-end-line="9" selection-end-column="41" />
-          <folding>
-            <element signature="e#0#21#0" expanded="true" />
           </folding>
         </state>
       </provider>
