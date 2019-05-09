@@ -111,6 +111,9 @@ hive.FullConnect(vector,vector2)
 please Email jialinli@linkedin.com
 
 ## last updated
-2018 Dec 3nd
+2019 May 10th
 
-## waiting to finish
+## __future__
+1. changing name in case of any misunderstanding with 'Apache Hive'
+1. overriding file constructions to make basic code in src folder
+1. add new functions in energy stream calculation between different storage layers 
