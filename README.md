@@ -108,7 +108,7 @@ hive.FullConnect(vector,vector2)
 
 
 ## contact me
-please Email jialinli@linkedin.com
+please Email lee@frony.net
 
 ## last updated
 2019 May 10th
