@@ -10,15 +10,12 @@ fully powered by Jialinli
 1. Eyeriss: An Energy-Efficient Reconfigurable Accelerator for Deep Convolutional Neural Networks [ISSIC 2016] [here](http://www.rle.mit.edu/eems/wp-content/uploads/2016/02/eyeriss_isscc_2016.pdf)
 1. Eyeriss: An Energy-Efficient Reconfigurable Accelerator for Deep Convolutional Neural Networks slides [ISSIC 2016] [here](http://www.rle.mit.edu/eems/wp-content/uploads/2016/02/eyeriss_isscc_2016_slides.pdf)
 1. **Hardware Architectures for Deep Neural Networks** [ISCA 2017] [here](http://www.rle.mit.edu/eems/wp-content/uploads/2017/03/Tutorial-on-DNN-CICS-MTL.pdf)
-
 1. Eyeriss: A Spatial Architecture for Energy-Efficient Dataflow
 for Convolutional Neural Networks [ISCA 2016] [here](http://www.rle.mit.edu/eems/wp-content/uploads/2016/04/eyeriss_isca_2016.pdf)
-
 1. DNN Accelerator
 Architectures slides [ISCA 2017] [here](http://www.rle.mit.edu/eems/wp-content/uploads/2017/06/Tutorial-on-DNN-4-of-9-DNN-Accelerator-Architectures.pdf)
 
 ## Eyeriss brief introduction
-
 Eyeriss is an accelerator that can deliver state-of-the- art accuracy with minimum energy consumption in the system (including DRAM) in real-time, by using two key methods:
 1. efficient dataflow and supporting hardware (spatial array, memory hierarchy and on-chip network) that minimize data movement by exploiting data reuse and support different shapes; 
 1. exploit data statistics to minimize energy through zeros skipping/gating to avoid unnecessary reads and computations; and data compression to reduce off-chip memory bandwidth, which is the most expensive data movement.
@@ -71,6 +68,7 @@ While existing dataflows attempt to maximize certain types of input data reuse o
 ### Hive platform
 
 Hive is a new CNN platform based on Eyeriss chip or EyerissF simulator, which contains basic funxs to establish CNN.
+**(NOT "APACHE HIVE")**
 Eyeriss or EyerissF just only an ASIC chip and python-made simulator and can not achieve any tasks. In order to do pattern regonization tasks, it must have a mature platform to support standard input data.
 Hive is aiming to tranfor 3-channel jpg pics to input Eyeriss supported stream and decompress results.
 
@@ -108,10 +106,13 @@ hive.FullConnect(vector,vector2)
 
 
 ## contact me
-please Email lee@frony.net
+please Email lee@frony.net or k1924116@kcl.ac.uk
+
+## REALLY IMPORTANT
+**Emergy model IS NOT finished YET**
 
 ## last updated
-2019 May 10th
+2019 Sep 23th
 
 ## __future__
 1. changing name in case of any misunderstanding with 'Apache Hive'
