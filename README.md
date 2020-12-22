@@ -95,18 +95,18 @@ Other funxs from Hive
 ```python
 hive.conv2d(pics,filters,number of pics, number of filters)
 ```
-1. Pooling
+2. Pooling
 ```python
 hive.Pooling(pics)
 ```
-1. FullConnect
+3. FullConnect
 ```python
 hive.FullConnect(vector,vector2)
 ```
 
 
 ## contact me
-please Email lee@frony.net or k1924116@kcl.ac.uk
+please Email jialin.li.kcl@outlook.com or ljl223519@alibaba-inc.com
 
 ## REALLY IMPORTANT
 **Emergy model IS NOT finished YET**
