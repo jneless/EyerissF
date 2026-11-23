@@ -1,55 +1,18 @@
 import numpy as np
 
-x = np.random.randint(-5, 6, (5, 5), dtype=int)
-np.save("ConvLayerFilter/ConvLayer1Filter1.npy", x)
-x = np.random.randint(-5, 6, (5, 5), dtype=int)
-np.save("ConvLayerFilter/ConvLayer1Filter2.npy", x)
-x = np.random.randint(-5, 6, (5, 5), dtype=int)
-np.save("ConvLayerFilter/ConvLayer1Filter3.npy", x)
-x = np.random.randint(-5, 6, (5, 5), dtype=int)
-np.save("ConvLayerFilter/ConvLayer1Filter4.npy", x)
-x = np.random.randint(-5, 6, (5, 5), dtype=int)
-np.save("ConvLayerFilter/ConvLayer1Filter5.npy", x)
-x = np.random.randint(-5, 6, (5, 5), dtype=int)
-np.save("ConvLayerFilter/ConvLayer1Filter6.npy", x)
 
-x = np.random.randint(-5, 6, (5, 5), dtype=int)
-np.save("ConvLayerFilter/ConvLayer2Filter1.npy", x)
-x = np.random.randint(-5, 6, (5, 5), dtype=int)
-np.save("ConvLayerFilter/ConvLayer2Filter2.npy", x)
-x = np.random.randint(-5, 6, (5, 5), dtype=int)
-np.save("ConvLayerFilter/ConvLayer2Filter3.npy", x)
-x = np.random.randint(-5, 6, (5, 5), dtype=int)
-np.save("ConvLayerFilter/ConvLayer2Filter4.npy", x)
-x = np.random.randint(-5, 6, (5, 5), dtype=int)
-np.save("ConvLayerFilter/ConvLayer2Filter5.npy", x)
-x = np.random.randint(-5, 6, (5, 5), dtype=int)
-np.save("ConvLayerFilter/ConvLayer2Filter6.npy", x)
-x = np.random.randint(-5, 6, (5, 5), dtype=int)
-np.save("ConvLayerFilter/ConvLayer2Filter7.npy", x)
-x = np.random.randint(-5, 6, (5, 5), dtype=int)
-np.save("ConvLayerFilter/ConvLayer2Filter8.npy", x)
-x = np.random.randint(-5, 6, (5, 5), dtype=int)
-np.save("ConvLayerFilter/ConvLayer2Filter9.npy", x)
-x = np.random.randint(-5, 6, (5, 5), dtype=int)
-np.save("ConvLayerFilter/ConvLayer2Filter10.npy", x)
-x = np.random.randint(-5, 6, (5, 5), dtype=int)
+def main():
+    # 卷积层：第 1 层 6 个、第 2 层 16 个 5x5 卷积核
+    for layer, count in ((1, 6), (2, 16)):
+        for i in range(1, count + 1):
+            x = np.random.randint(-5, 6, (5, 5), dtype=int)
+            np.save(f"ConvLayerFilter/ConvLayer{layer}Filter{i}.npy", x)
 
-np.save("ConvLayerFilter/ConvLayer2Filter11.npy", x)
-x = np.random.randint(-5, 6, (5, 5), dtype=int)
-np.save("ConvLayerFilter/ConvLayer2Filter12.npy", x)
-x = np.random.randint(-5, 6, (5, 5), dtype=int)
-np.save("ConvLayerFilter/ConvLayer2Filter13.npy", x)
-x = np.random.randint(-5, 6, (5, 5), dtype=int)
-np.save("ConvLayerFilter/ConvLayer2Filter14.npy", x)
-x = np.random.randint(-5, 6, (5, 5), dtype=int)
-np.save("ConvLayerFilter/ConvLayer2Filter15.npy", x)
-x = np.random.randint(-5, 6, (5, 5), dtype=int)
-np.save("ConvLayerFilter/ConvLayer2Filter16.npy", x)
+    # 全连接层：400x120、120x84、84x10
+    for i, shape in enumerate([(400, 120), (120, 84), (84, 10)], start=1):
+        x = np.random.randint(-5, 6, shape, dtype=int)
+        np.save(f"FullConnectLayer/FullConnectLayer{i}.npy", x)
 
-x = np.random.randint(-5, 6, (400, 120), dtype=int)
-np.save("FullConnectLayer/FullConnectLayer1.npy", x)
-x = np.random.randint(-5, 6, (120, 84), dtype=int)
-np.save("FullConnectLayer/FullConnectLayer2.npy", x)
-x = np.random.randint(-5, 6, (84, 10), dtype=int)
-np.save("FullConnectLayer/FullConnectLayer3.npy", x)
+
+if __name__ == "__main__":
+    main()
