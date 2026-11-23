@@ -4,6 +4,7 @@ def Pooling(array,activation):
     assert isinstance(array, list)
     return [MAXPooling(x,activation) for x in array]
 
+# activation 是除数（例如 255）：结果除以它后向零取整，不是激活函数
 def MAXPooling(Array,activation=1, ksize=2):
     # 输入必须是二维数组，并且高和宽都是 ksize 的整数倍，否则池化窗口会错位
     if np.ndim(Array) != 2 or any(n % ksize for n in np.shape(Array)):

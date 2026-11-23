@@ -44,13 +44,13 @@ class EyerissF:
 
     def __SetPEsRunningState__(self, PictureColumnLength, FilterWeightColumnLength):
 
-        # 卷积核行数必须小于图片行数
+        # 卷积核行数不能超过图片行数
         assert FilterWeightColumnLength <= PictureColumnLength
 
-        # 卷积核行数必须小于Eyeriss高度
+        # 卷积核行数不能超过Eyeriss高度
         assert FilterWeightColumnLength <= EyerissF.EyerissHeight
 
-        # 图片行数必须小于 Eyeriss长宽只和-1
+        # 图片行数不能超过 Eyeriss长宽之和-1
         assert PictureColumnLength <= EyerissF.EyerissHeight + EyerissF.EyerissWidth - 1
 
         for ColumnELement in range(0, FilterWeightColumnLength):
@@ -90,7 +90,7 @@ class EyerissF:
         for ColumnELement in range(0, len(Picture)):
             for c in range(0, ColumnELement + 1):
                 try:
-                    # 当len（pic）大于12的时候会发生一场，找不到PEArray[13][0]，但是与后续不影响
+                    # 当len（pic）大于12的时候会发生异常，找不到PEArray[12][0]，但是不影响后续
                     self.PEArray[ColumnELement - c][c].SetImageRow(Picture[ColumnELement])
                 except IndexError:
                     pass
@@ -117,10 +117,10 @@ class EyerissF:
                 # 从上到下把psum加入list
                 line.append(self.PEArray[ColumnElement][RowElement].Psum)
 
-            # 将list中的Psum做和，得到一行卷积值，保存到r中
+            # 将list中的Psum做和，得到一行卷积值，保存到result中
             result.append(np.sum(line, axis=0, dtype=int))
 
-        # 将r中全部的卷积值组合成一个矩阵，并返回
+        # 将result中全部的卷积值组合成一个矩阵，并返回
         if not result:
             return
 

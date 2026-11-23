@@ -7,8 +7,8 @@ fully powered by Jialinli
 ![](readme-pic/5.png)
 
 ## Vital reference from MIT !
-1. Eyeriss: An Energy-Efficient Reconfigurable Accelerator for Deep Convolutional Neural Networks [ISSIC 2016] [here](http://www.rle.mit.edu/eems/wp-content/uploads/2016/02/eyeriss_isscc_2016.pdf)
-1. Eyeriss: An Energy-Efficient Reconfigurable Accelerator for Deep Convolutional Neural Networks slides [ISSIC 2016] [here](http://www.rle.mit.edu/eems/wp-content/uploads/2016/02/eyeriss_isscc_2016_slides.pdf)
+1. Eyeriss: An Energy-Efficient Reconfigurable Accelerator for Deep Convolutional Neural Networks [ISSCC 2016] [here](http://www.rle.mit.edu/eems/wp-content/uploads/2016/02/eyeriss_isscc_2016.pdf)
+1. Eyeriss: An Energy-Efficient Reconfigurable Accelerator for Deep Convolutional Neural Networks slides [ISSCC 2016] [here](http://www.rle.mit.edu/eems/wp-content/uploads/2016/02/eyeriss_isscc_2016_slides.pdf)
 1. **Hardware Architectures for Deep Neural Networks** [ISCA 2017] [here](http://www.rle.mit.edu/eems/wp-content/uploads/2017/03/Tutorial-on-DNN-CICS-MTL.pdf)
 1. Eyeriss: A Spatial Architecture for Energy-Efficient Dataflow
 for Convolutional Neural Networks [ISCA 2016] [here](http://www.rle.mit.edu/eems/wp-content/uploads/2016/04/eyeriss_isca_2016.pdf)
@@ -16,14 +16,14 @@ for Convolutional Neural Networks [ISCA 2016] [here](http://www.rle.mit.edu/eems
 Architectures slides [ISCA 2017] [here](http://www.rle.mit.edu/eems/wp-content/uploads/2017/06/Tutorial-on-DNN-4-of-9-DNN-Accelerator-Architectures.pdf)
 
 ## Eyeriss brief introduction
-Eyeriss is an accelerator that can deliver state-of-the- art accuracy with minimum energy consumption in the system (including DRAM) in real-time, by using two key methods:
+Eyeriss is an accelerator that can deliver state-of-the-art accuracy with minimum energy consumption in the system (including DRAM) in real-time, by using two key methods:
 1. efficient dataflow and supporting hardware (spatial array, memory hierarchy and on-chip network) that minimize data movement by exploiting data reuse and support different shapes; 
 1. exploit data statistics to minimize energy through zeros skipping/gating to avoid unnecessary reads and computations; and data compression to reduce off-chip memory bandwidth, which is the most expensive data movement.
 
 ## How can we modify CNN calculation?
 ![](readme-pic/1.png)
 
-From CNN defined calculation to new CNN Calculation, via new ASIC chip, we found a few processes could be combine together or run parallelly.
+From CNN defined calculation to new CNN Calculation, via new ASIC chip, we found a few processes could be combined or run in parallel.
 * **high parallelism**
 
 This pic shows the dataflow within the array for filter weights, image values and partial sums. If the filter height (R) equals the number of rows in the array , the logical dataflow would be as follows:
@@ -43,7 +43,11 @@ While existing dataflows attempt to maximize certain types of input data reuse o
 ## Eyeriss structure 
 ![](readme-pic/4.png)
 
-## How can I leverage THIS REPOSITY?
+## How can I leverage THIS REPOSITORY?
+
+### Quick start
+Install Python 3 with numpy, matplotlib and Pillow (`pip install numpy matplotlib pillow`), then run `python3 Lenet5_Hive.py` from the repository root.
+It runs [Pic/01.png](Pic/01.png) through a LeNet-5 on the simulator and prints the index of the largest output. The weights are untrained random integers made by filterReset.py, so the printed digit is not a real recognition result.
 
 ### File structure
 * EyerissF
@@ -61,42 +65,42 @@ While existing dataflows attempt to maximize certain types of input data reuse o
     * [Lenet5_Hive_Manuel.ipynb](Lenet5_Hive_Manuel.ipynb)
     * [Lenet5_Hive_Manuel_withPics.ipynb](Lenet5_Hive_Manuel_withPics.ipynb)
 * other
-    * [Extension.py]( Extension.py) ( change numpy arrary into pics)
-    * [filterReset.py]( filterReset.py) ( Reset lenet5 factors)
+    * [Extension.py]( Extension.py) ( change numpy array into pics)
+    * [filterReset.py]( filterReset.py) ( overwrite the committed LeNet-5 weights with new random integers; `git checkout -- ConvLayerFilter FullConnectLayer` restores them)
+    * [resetFilter.bash](resetFilter.bash) ( run filterReset.py, then Lenet5_Hive.py)
 
 ### Hive platform
 
 Hive is a new CNN platform based on Eyeriss chip or EyerissF simulator, which contains basic funxs to establish CNN.
 **(NOT "APACHE HIVE")**
-Eyeriss or EyerissF just only an ASIC chip and python-made simulator and can not achieve any tasks. In order to do pattern regonization tasks, it must have a mature platform to support standard input data.
-Hive is aiming to tranfor 3-channel jpg pics to input Eyeriss supported stream and decompress results.
+Eyeriss or EyerissF just only an ASIC chip and python-made simulator and can not achieve any tasks. In order to do pattern recognition tasks, it must have a mature platform to support standard input data.
+Hive is aiming to transform 3-channel jpg pics to input Eyeriss supported stream and decompress results.
 
 
 If u wanna use hive to create CNN, u should do following steps:
 
 1. init EyerissF simulator 
 ```python
+from EyerissF import EyerissF
 ef = EyerissF()
-```
-or
-
-```python
-ef = EyerissF("manual")
 ```
 
 1. init Hive
 ```python
-hive = Hive(ef)
+from Hive import Hive
+hive = Hive(ef)  # auto mode (default), used in the examples below; for mode="manual" see Lenet5_Hive_Manuel.ipynb
 ```
 
 Other funxs from Hive
 1. convolution ( Eyeriss Supported)
 ```python
-hive.conv2d(pics,filters,number of pics, number of filters)
+# pics and filters are lists of 2-D integer arrays: one pic with several filters, or several pics with one filter
+# returns the output maps, compressed
+pics = hive.Conv2d(pics, filters, len(pics), len(filters))
 ```
 2. Pooling
 ```python
-hive.Pooling(pics)
+hive.Pooling(hive.Decompress(pics))
 ```
 3. FullConnect
 ```python
@@ -108,10 +112,10 @@ hive.FullConnect(vector,vector2)
 please Email jialin.li.kcl@outlook.com or ljl223519@alibaba-inc.com
 
 ## REALLY IMPORTANT
-**Emergy model IS NOT finished YET**
+**Energy model IS NOT finished YET**
 
 ## last updated
-2019 Sep 23th
+2019 Sep 23rd
 
 ## __future__
 1. changing name in case of any misunderstanding with 'Apache Hive'

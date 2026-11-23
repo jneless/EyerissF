@@ -64,6 +64,7 @@ class Hive:
         else:
             return Activiation.Relu(array)
 
+    # activation 是除数（例如 255）：结果除以它后向零取整，不是激活函数
     def Pooling(self, array, activation=1):
         if isinstance(array, list):
             return Pooling.Pooling(array, activation)
@@ -177,5 +178,6 @@ class Hive:
     def Output(self):
         return self.Compress(self.ReturnImgs)
 
+    # activation 是除数（例如 255）：结果除以它后向零取整，不是激活函数
     def FullConnect(self, v1, v2, activation=1):
         return np.array(np.dot(v1, v2) / activation, dtype=int)

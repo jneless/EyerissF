@@ -25,4 +25,5 @@ vector = hive.FullConnect(vector, np.load('FullConnectLayer/FullConnectLayer2.np
 
 vector = hive.FullConnect(vector, np.load('FullConnectLayer/FullConnectLayer3.npy'))
 
+# 注意：权重是 filterReset.py 生成的未训练随机整数，这里的输出不是真正的识别结果
 print("this number is : ",vector.argmax())
