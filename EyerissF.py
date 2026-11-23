@@ -16,6 +16,13 @@ class EyerissF:
         # 先让所有PE回到ClockGate，避免上一次出错的调用留下Running状态
         self.__SetALLPEsState__(conf.ClockGate)
 
+        # 统一转成 numpy 数组；整数（uint8、int16 等）先扩展为 int64，避免乘法溢出
+        Picture, FilterWeight = np.asarray(Picture), np.asarray(FilterWeight)
+        if Picture.dtype.kind in "biu":
+            Picture = Picture.astype(np.int64, copy=False)
+        if FilterWeight.dtype.kind in "biu":
+            FilterWeight = FilterWeight.astype(np.int64, copy=False)
+
         PictureColumnLength, FilterWeightColumnLength = self.__DataDeliver__(Picture, FilterWeight, ImageNum, FilterNum)
         self.__run__()
         ConvedArray = self.__PsumTransport__(PictureColumnLength, FilterWeightColumnLength)

@@ -5,15 +5,18 @@ def Pooling(array,activation):
     return [MAXPooling(x,activation) for x in array]
 
 def MAXPooling(Array,activation=1, ksize=2):
-    assert len(Array) % ksize == 0
+    # 输入必须是二维数组，并且高和宽都是 ksize 的整数倍，否则池化窗口会错位
+    if np.ndim(Array) != 2 or any(n % ksize for n in np.shape(Array)):
+        raise ValueError(f"MAXPooling needs a 2-D array whose sides are multiples of ksize={ksize}, "
+                         f"got shape {np.shape(Array)}")
 
-    V2list = np.vsplit(Array, len(Array) / ksize)
+    V2list = np.vsplit(Array, len(Array) // ksize)
 
     VerticalElements = list()
     HorizontalElements = list()
 
     for x in V2list:
-        H2list = np.hsplit(x, len(x[0]) / ksize)
+        H2list = np.hsplit(x, len(x[0]) // ksize)
         HorizontalElements.clear()
         for y in H2list:
             # y should be a two-two square

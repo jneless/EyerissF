@@ -3,7 +3,7 @@ import numpy as np
 
 def Compress(NpArray, RateNeed=0):
     if NpArray.ndim == 1:
-        Row = NpArray.shape
+        Row = NpArray.shape[0]
         Column = 1
     else:
         Row, Column = NpArray.shape
