@@ -63,7 +63,6 @@ While existing dataflows attempt to maximize certain types of input data reuse o
 * other
     * [Extension.py]( Extension.py) ( change numpy arrary into pics)
     * [filterReset.py]( filterReset.py) ( Reset lenet5 factors)
-    * [Test.py]( Test.py) ( debug file)
 
 ### Hive platform
 

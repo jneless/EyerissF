@@ -96,3 +96,8 @@ fabric.properties
 
 
 
+# Python / Jupyter / PyCharm
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+.idea/
