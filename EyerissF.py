@@ -32,11 +32,7 @@ class EyerissF:
         return ReluedConvedArray
 
     def __InitPEs__(self, PEsWidth=conf.EyerissWidth, PEsHeight=conf.EyerissHeight):
-        self.PEArray = list()
-        for x in range(0, PEsHeight):
-            self.PEArray.append(list())
-            for y in range(0, PEsWidth):
-                self.PEArray[x].append(PE())
+        self.PEArray = [[PE() for _ in range(PEsWidth)] for _ in range(PEsHeight)]
 
     def __SetALLPEsState__(self, State):
 
@@ -92,17 +88,12 @@ class EyerissF:
 
         # ImageRow 从左下到右上
         for ColumnELement in range(0, len(Picture)):
-            DeliverinitR = 0
-            DeliverinitH = ColumnELement
             for c in range(0, ColumnELement + 1):
                 try:
                     # 当len（pic）大于12的时候会发生一场，找不到PEArray[13][0]，但是与后续不影响
-                    self.PEArray[DeliverinitH][DeliverinitR].SetImageRow(Picture[ColumnELement])
+                    self.PEArray[ColumnELement - c][c].SetImageRow(Picture[ColumnELement])
                 except IndexError:
                     pass
-
-                DeliverinitR = DeliverinitR + 1
-                DeliverinitH = DeliverinitH - 1
 
         return PictureColumnLength, FilterWeightColumnLength
 
@@ -122,7 +113,7 @@ class EyerissF:
 
             # 清空list
             line.clear()
-            for ColumnElement in range(0, FilterWeightColumnLength).__reversed__():
+            for ColumnElement in reversed(range(0, FilterWeightColumnLength)):
                 # 从上到下把psum加入list
                 line.append(self.PEArray[ColumnElement][RowElement].Psum)
 
@@ -130,7 +121,7 @@ class EyerissF:
             result.append(np.sum(line, axis=0, dtype=int))
 
         # 将r中全部的卷积值组合成一个矩阵，并返回
-        if result == []:
+        if not result:
             return
 
         return np.vstack(result)
