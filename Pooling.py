@@ -1,7 +1,7 @@
 import numpy as np
 
 def Pooling(array,activation):
-    assert type(array) == type(list())
+    assert isinstance(array, list)
     return [MAXPooling(x,activation) for x in array]
 
 def MAXPooling(Array,activation=1, ksize=2):

@@ -7,7 +7,8 @@ def Compress(NpArray, RateNeed=0):
         Column = 1
     else:
         Row, Column = NpArray.shape
-    ComedNpArray = np.array([Row, Column], dtype=int)
+    # 先用 list 收集，最后一次转成数组（np.append 每次都要复制整个数组）
+    ComedNpArray = [Row, Column]
     # NpArray=NpArray.flatten()
     NpArray = NpArray.reshape((1, Row * Column))
     ZeroCounter = 0
@@ -16,13 +17,14 @@ def Compress(NpArray, RateNeed=0):
             ZeroCounter = ZeroCounter + 1
         else:
             if ZeroCounter == 0:
-                ComedNpArray = np.append(ComedNpArray, np.array(NpArray[0, iterr]))
+                ComedNpArray.append(NpArray[0, iterr])
             else:
-                ComedNpArray = np.append(ComedNpArray, np.array([0, ZeroCounter, NpArray[0, iterr]]))
+                ComedNpArray.extend([0, ZeroCounter, NpArray[0, iterr]])
                 ZeroCounter = 0
 
     if ZeroCounter != 0:
-        ComedNpArray = np.append(ComedNpArray, np.array([0, ZeroCounter]))
+        ComedNpArray.extend([0, ZeroCounter])
+    ComedNpArray = np.array(ComedNpArray)
     if RateNeed == 0:
         return ComedNpArray
     else:
@@ -38,7 +40,7 @@ def Decompress(NpArray):
     for interr in range(Length):
 
         if NpArray[interr + 2] == 0:
-            for x in range(NpArray[interr + 3]):
+            for _ in range(NpArray[interr + 3]):
                 DecomedNpArray.append(0)
         elif NpArray[interr + 1] == 0:  # NpArray[interr+2] != 0
             pass
@@ -50,9 +52,9 @@ def Decompress(NpArray):
     return DecomedNpArray
 
 def CompressArray(array):
-    assert type(array) == type(list())
+    assert isinstance(array, list)
     return [Compress(x) for x in array]
 
 def DecompressArray(array):
-    assert type(array) == type(list())
+    assert isinstance(array, list)
     return [Decompress(x) for x in array]
