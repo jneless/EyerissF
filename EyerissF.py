@@ -13,6 +13,9 @@ class EyerissF:
 
     def Conv2d(self, Picture, FilterWeight, ImageNum, FilterNum):
 
+        # 先让所有PE回到ClockGate，避免上一次出错的调用留下Running状态
+        self.__SetALLPEsState__(conf.ClockGate)
+
         PictureColumnLength, FilterWeightColumnLength = self.__DataDeliver__(Picture, FilterWeight, ImageNum, FilterNum)
         self.__run__()
         ConvedArray = self.__PsumTransport__(PictureColumnLength, FilterWeightColumnLength)
@@ -51,7 +54,7 @@ class EyerissF:
             for RowElement in range(0, PictureColumnLength + 1 - FilterWeightColumnLength):
                 try:
                     self.PEArray[ColumnELement][RowElement].SetPEState(conf.Running)
-                except:
+                except IndexError:
                     pass
 
     def __SetALLPEImgNumAndFltNum__(self, ImageNum, FilterNum):
@@ -88,7 +91,7 @@ class EyerissF:
                 try:
                     # 当len（pic）大于12的时候会发生一场，找不到PEArray[13][0]，但是与后续不影响
                     self.PEArray[DeliverinitH][DeliverinitR].SetImageRow(Picture[ColumnELement])
-                except:
+                except IndexError:
                     pass
 
                 DeliverinitR = DeliverinitR + 1

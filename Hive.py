@@ -33,7 +33,11 @@ class Hive():
         elif self.FilterWeightNum == 1:
             self.__FilterReuse__(Pictures, FilterWeights)
         else:
-            self.__ChannelAccumulation__(Pictures, FilterWeights)
+            # 多图多核（通道累加）还没有实现
+            raise NotImplementedError(
+                f"Conv2d needs PictureNum == 1 or FilterWeightNum == 1, got {self.PictureNum!r}"
+                f" and {self.FilterWeightNum!r}; for several pictures with several filters, call it"
+                " once per filter and add the maps each call returns (see Lenet5_Hive.py)")
 
     def Conv2PhysicalMapping(self):
 
@@ -92,8 +96,11 @@ class Hive():
             self.Conv2LogicalMapping()
             self.Conv2PhysicalMapping()
             self.mode = "manual"
-            self.Conv2d(0, 0, 0, 0)
-            self.mode = "auto"
+            try:
+                self.Conv2d(0, 0, 0, 0)
+            finally:
+                # 出错时也要回到 auto 模式，否则之后的调用会一直按 manual 模式重放旧的映射
+                self.mode = "auto"
             self.Reverse()
             return self.Output()
 

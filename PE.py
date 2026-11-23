@@ -76,6 +76,10 @@ class PE:
                 result = np.reshape(result, (1, result.size))
                 return result
 
+            # 图和核都不为1（多图多核）的情况没有实现
+            raise NotImplementedError(
+                f"PE needs ImageNum == 1 or FilterNum == 1, got {ImageNum!r} and {FilterNum!r}")
+
     def CountPsum(self):
         if self.PEState == conf.ClockGate:
             self.__SetPsum__(conf.EmptyPsum)
