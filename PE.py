@@ -56,9 +56,9 @@ class PE:
                 for x in pics:
                     # 卷积后的结果加入l中临时保存
                     l.append(self.__Conv1d__(x, FilterWeight))
-                    # 将l中的结果组合成一个新的矩阵
-                    # 横向组合
-                    result = np.hstack(np.array(l))
+                # 将l中的结果组合成一个新的矩阵
+                # 横向组合
+                result = np.hstack(l)
                 # 返回结果
                 return result
 
@@ -66,7 +66,7 @@ class PE:
             if ImageNum == 1:
 
                 # 将FilterWeight变为矩阵
-                FilterWeight = np.reshape(FilterWeight, (int(FilterWeight.size / FilterNum), FilterNum))
+                FilterWeight = np.reshape(FilterWeight, (FilterWeight.size // FilterNum, FilterNum))
                 flts = np.array(FilterWeight.T)
 
                 for x in flts:
@@ -75,6 +75,10 @@ class PE:
                 result = result.T
                 result = np.reshape(result, (1, result.size))
                 return result
+
+            # 图和核都不为1（多图多核）的情况没有实现
+            raise NotImplementedError(
+                f"PE needs ImageNum == 1 or FilterNum == 1, got {ImageNum!r} and {FilterNum!r}")
 
     def CountPsum(self):
         if self.PEState == conf.ClockGate:

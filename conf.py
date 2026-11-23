@@ -1,3 +1,5 @@
+# 存储大小的单位都是 KB（MB = 1024 KB）
+
 # Global Buffer
 SRAMSize = 108
 

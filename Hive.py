@@ -4,7 +4,7 @@ import IO2
 import Pooling
 import Activiation
 
-class Hive():
+class Hive:
 
     def __init__(self, EyerissF, mode="auto"):
         self.mode = mode
@@ -33,50 +33,52 @@ class Hive():
         elif self.FilterWeightNum == 1:
             self.__FilterReuse__(Pictures, FilterWeights)
         else:
-            self.__ChannelAccumulation__(Pictures, FilterWeights)
+            # 多图多核（通道累加）还没有实现
+            raise NotImplementedError(
+                f"Conv2d needs PictureNum == 1 or FilterWeightNum == 1, got {self.PictureNum!r}"
+                f" and {self.FilterWeightNum!r}; for several pictures with several filters, call it"
+                " once per filter and add the maps each call returns (see Lenet5_Hive.py)")
 
     def Conv2PhysicalMapping(self):
 
         FilterWeight = self.FilterWeight
         Picture = self.Picture
-        FilterWeight = self.FilterWeight
         x = 0
         t = list()
-        while conf.EyerissWidth * x + conf.EyerissWidth + len(FilterWeight) - 1 < len(FilterWeight) + len(Picture) - 1:
-            P = Picture[conf.EyerissWidth * x: conf.EyerissWidth * x + conf.EyerissWidth + len(FilterWeight) - 1]
+        while conf.EyerissWidth * (x + 1) < len(Picture):
+            P = Picture[conf.EyerissWidth * x: conf.EyerissWidth * (x + 1) + len(FilterWeight) - 1]
             x = x + 1
             t.append(P)
 
         P = Picture[conf.EyerissWidth * x:]
 
         # 判断逻辑矩阵的尾巴，并删除多余的图
-        if len(Picture[conf.EyerissWidth * x:]) < len(FilterWeight):
-            pass
-        else:
+        if len(P) >= len(FilterWeight):
             t.append(P)
 
         self.__SetPhysicalMapping__(t)
 
     def Relu(self, array):
-        if type(array) == type(list()):
+        if isinstance(array, list):
             return Activiation.ReluArray(array)
         else:
             return Activiation.Relu(array)
 
+    # activation 是除数（例如 255）：结果除以它后向零取整，不是激活函数
     def Pooling(self, array, activation=1):
-        if type(array) == type(list()):
+        if isinstance(array, list):
             return Pooling.Pooling(array, activation)
         else:
             return Pooling.MAXPooling(array, activation)
 
     def Compress(self, NpArray, RateNeed=0):
-        if type(NpArray) == type(list()):
+        if isinstance(NpArray, list):
             return IO2.CompressArray(NpArray)
         else:
             return IO2.Compress(NpArray, RateNeed)
 
     def Decompress(self, NpArray):
-        if type(NpArray) == type(list()):
+        if isinstance(NpArray, list):
             return IO2.DecompressArray(NpArray)
         else:
             return IO2.Decompress(NpArray)
@@ -92,14 +94,17 @@ class Hive():
             self.Conv2LogicalMapping()
             self.Conv2PhysicalMapping()
             self.mode = "manual"
-            self.Conv2d(0, 0, 0, 0)
-            self.mode = "auto"
+            try:
+                self.Conv2d(0, 0, 0, 0)
+            finally:
+                # 出错时也要回到 auto 模式，否则之后的调用会一直按 manual 模式重放旧的映射
+                self.mode = "auto"
             self.Reverse()
             return self.Output()
 
         else:
-            map = self.mapping
-            self.t = [self.EyerissF.Conv2d(x, self.FilterWeight, self.PictureNum, self.FilterWeightNum) for x in map]
+            self.t = [self.EyerissF.Conv2d(x, self.FilterWeight, self.PictureNum, self.FilterWeightNum)
+                      for x in self.mapping]
             self.TempPsum = np.vstack(self.t)
 
     def __SetPicAndFlt__(self, Picture, FilterWeight):
@@ -145,8 +150,6 @@ class Hive():
 
     def Reverse(self):
         Psum = self.TempPsum
-        if self.PictureNum == 1 and self.FilterWeightNum == 1:
-            self.__SetReturnImgs__(Psum)
         if self.PictureNum == 1:
             self.__ReverseFmapReuse__(Psum, self.FilterWeightNum)
         elif self.FilterWeightNum == 1:
@@ -175,5 +178,6 @@ class Hive():
     def Output(self):
         return self.Compress(self.ReturnImgs)
 
+    # activation 是除数（例如 255）：结果除以它后向零取整，不是激活函数
     def FullConnect(self, v1, v2, activation=1):
         return np.array(np.dot(v1, v2) / activation, dtype=int)

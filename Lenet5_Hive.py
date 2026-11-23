@@ -2,12 +2,12 @@ from Hive import Hive
 from EyerissF import EyerissF as EF
 import numpy as np
 import Extension
-import skimage.io as io
+from PIL import Image
 
 ef = EF()
 hive = Hive(ef)
 
-pics = [255-io.imread("Pic/01.png", as_grey=True)]
+pics = [255-np.asarray(Image.open("Pic/01.png").convert("L"))]
 flts = [np.load("ConvLayerFilter/ConvLayer1Filter"+str(x)+".npy") for x in range(1,7)]
 
 pics=hive.Conv2d(pics,flts,1,6)
@@ -25,4 +25,5 @@ vector = hive.FullConnect(vector, np.load('FullConnectLayer/FullConnectLayer2.np
 
 vector = hive.FullConnect(vector, np.load('FullConnectLayer/FullConnectLayer3.npy'))
 
+# 注意：权重是 filterReset.py 生成的未训练随机整数，这里的输出不是真正的识别结果
 print("this number is : ",vector.argmax())
